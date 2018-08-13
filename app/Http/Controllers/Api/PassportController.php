@@ -8,7 +8,6 @@ use Illuminate\Support\Facades\Auth;
 use Validator;
 use Log;
 
-
 class PassportController extends Controller
 {
 
@@ -57,12 +56,7 @@ class PassportController extends Controller
         return response()->json(['success'=>$success], $this->successStatus);
     }
 
-    /**
-     * details api
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function getDetails(Request $request)
+     public function getDetails(Request $request)
     {
         Log::alert('res'.print_r($request,true));
         $user = Auth::user();
