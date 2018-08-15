@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Modules\System\Models\Role;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -51,4 +52,12 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public function roles(){
+        return $this->belongsToMany(Role::class,'role_authmenu','user_id','role_id')->withPivot('user_id','role_id');
+    }
+
+    public function assigeRole($roles){
+        return $this->roles()->sync($roles);
+    }
 }

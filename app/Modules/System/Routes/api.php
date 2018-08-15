@@ -21,18 +21,16 @@ Route::prefix('system')->group(function () {
    // Route::group(['middleware' => 'auth:api'], function () {
 
         Route::namespace('Manage')->group(function () {
-            Route::post('user', 'ManageController@systemList');
+            Route::post('user', 'ManageController@userList')->name('user');
 
-            Route::post('role', 'RoleController@roleList');
+            Route::post('role', 'RoleController@roleList')->name('role');
+            Route::post('role/create', 'RoleController@roleCreate')->name('roleCreate');
             Route::post('role/update', 'RoleController@roleUpdate');
-            Route::post('role/info', 'RoleController@roleInfo');
-            //Route::post('role/delete', 'RoleController@roleDelete');
-            Route::delete('role/delete', 'RoleController@roleDelete');
+            Route::post('role/info', 'RoleController@roleInfo')->name('roleInfo');
+            Route::delete('role/delete', 'RoleController@roleDelete')->name('roleDelete');
 
-            Route::post('role', 'RoleController@roleList');
-           /* Route::post('role/update', 'RoleController@roleUpdate');
-            Route::post('role/info', 'RoleController@roleInfo');
-            Route::post('role/delete', 'RoleController@roleDelete');*/
+
+            Route::post('permission/create', 'PermissionController@permissionCreate');
         });
 
         //Route::post('getdetails', 'LoginController@getDetails');
