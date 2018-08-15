@@ -166,6 +166,9 @@ return [
 
         Reliese\Coders\CodersServiceProvider::class,
         Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
+        Caffeinated\Modules\ModulesServiceProvider::class,
+        Way\Generators\GeneratorsServiceProvider::class,
+        Xethron\MigrationsGenerator\MigrationsGeneratorServiceProvider::class
 
     ],
 
@@ -218,6 +221,7 @@ return [
 
 
         'UUID' => Webpatser\Uuid\Uuid::class,
+        'Module' => Caffeinated\Modules\Facades\Module::class,
 
     ],
 

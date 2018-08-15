@@ -2,7 +2,7 @@
 
 /**
  * Created by Reliese Model.
- * Date: Tue, 14 Aug 2018 10:52:36 +0000.
+ * Date: Wed, 15 Aug 2018 01:42:10 +0000.
  */
 
 namespace App\Models;
@@ -25,6 +25,7 @@ use Reliese\Database\Eloquent\Model as Eloquent;
 class AuthMenu extends Eloquent
 {
 	protected $table = 'auth_menu';
+	protected $primaryKey = 'id';
 
 	protected $casts = [
 		'parent_id' => 'int',

@@ -2,7 +2,7 @@
 
 /**
  * Created by Reliese Model.
- * Date: Tue, 14 Aug 2018 10:52:36 +0000.
+ * Date: Wed, 15 Aug 2018 01:42:10 +0000.
  */
 
 namespace App\Models;
@@ -26,6 +26,7 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  */
 class OauthAccessToken extends Eloquent
 {
+	protected $primaryKey = 'id';
 	public $incrementing = false;
 
 	protected $casts = [

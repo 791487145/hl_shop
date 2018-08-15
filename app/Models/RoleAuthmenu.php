@@ -10,24 +10,27 @@ namespace App\Models;
 use Reliese\Database\Eloquent\Model as Eloquent;
 
 /**
- * Class OauthPersonalAccessClient
+ * Class RoleAuthmenu
  * 
  * @property int $id
- * @property int $client_id
- * @property \Carbon\Carbon $created_at
- * @property \Carbon\Carbon $updated_at
+ * @property int $role_id
+ * @property int $auth_menu_id
  *
  * @package App\Models
  */
-class OauthPersonalAccessClient extends Eloquent
+class RoleAuthmenu extends Eloquent
 {
+	protected $table = 'role_authmenu';
 	protected $primaryKey = 'id';
+	public $timestamps = false;
 
 	protected $casts = [
-		'client_id' => 'int'
+		'role_id' => 'int',
+		'auth_menu_id' => 'int'
 	];
 
 	protected $fillable = [
-		'client_id'
+		'role_id',
+		'auth_menu_id'
 	];
 }

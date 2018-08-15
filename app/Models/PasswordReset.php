@@ -10,24 +10,26 @@ namespace App\Models;
 use Reliese\Database\Eloquent\Model as Eloquent;
 
 /**
- * Class OauthPersonalAccessClient
+ * Class PasswordReset
  * 
- * @property int $id
- * @property int $client_id
+ * @property string $email
+ * @property string $token
  * @property \Carbon\Carbon $created_at
- * @property \Carbon\Carbon $updated_at
  *
  * @package App\Models
  */
-class OauthPersonalAccessClient extends Eloquent
+class PasswordReset extends Eloquent
 {
-	protected $primaryKey = 'id';
+	protected $primaryKey = NULL;
+	public $incrementing = false;
+	public $timestamps = false;
 
-	protected $casts = [
-		'client_id' => 'int'
+	protected $hidden = [
+		'token'
 	];
 
 	protected $fillable = [
-		'client_id'
+		'email',
+		'token'
 	];
 }
