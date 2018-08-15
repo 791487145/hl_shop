@@ -5,18 +5,21 @@
  * Date: Wed, 15 Aug 2018 01:42:10 +0000.
  */
 
-namespace App\Models;
+namespace App\Modules\System\Models;
 
 use Reliese\Database\Eloquent\Model as Eloquent;
 
+
 /**
- * Class UserRole
- * 
+ * App\Modules\System\Models\UserRole
+ *
  * @property int $id
  * @property int $role_id
  * @property int $user_id
- *
- * @package App\Models
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Modules\System\Models\UserRole whereId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Modules\System\Models\UserRole whereRoleId($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Modules\System\Models\UserRole whereUserId($value)
+ * @mixin \Eloquent
  */
 class UserRole extends Eloquent
 {

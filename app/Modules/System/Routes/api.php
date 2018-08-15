@@ -12,7 +12,36 @@ use Illuminate\Http\Request;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+Route::prefix('system')->group(function () {
+   // dd(1);
 
-Route::get('/system', function (Request $request) {
-    // return $request->system();
-})->middleware('auth:api');
+    //Route::post('login', 'LoginController@login');
+    //Route::post('register', 'LoginController@register');
+
+   // Route::group(['middleware' => 'auth:api'], function () {
+
+        Route::namespace('Manage')->group(function () {
+            Route::post('user', 'ManageController@systemList');
+
+            Route::post('role', 'RoleController@roleList');
+            Route::post('role/update', 'RoleController@roleUpdate');
+            Route::post('role/info', 'RoleController@roleInfo');
+            //Route::post('role/delete', 'RoleController@roleDelete');
+            Route::delete('role/delete', 'RoleController@roleDelete');
+
+            Route::post('role', 'RoleController@roleList');
+           /* Route::post('role/update', 'RoleController@roleUpdate');
+            Route::post('role/info', 'RoleController@roleInfo');
+            Route::post('role/delete', 'RoleController@roleDelete');*/
+        });
+
+        //Route::post('getdetails', 'LoginController@getDetails');
+    //});
+
+
+
+
+
+
+
+});
