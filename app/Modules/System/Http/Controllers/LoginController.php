@@ -60,7 +60,7 @@ class LoginController extends ApiController
 
      public function getDetails(Request $request)
     {
-        Log::alert('res'.print_r($request,true));
+        //Log::alert('res'.print_r($request,true));
         $user = Auth::user();
         return response()->json(['success' => $user], $this->successStatus);
     }

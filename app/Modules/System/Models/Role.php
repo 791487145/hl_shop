@@ -33,6 +33,8 @@ class Role extends Eloquent
 	protected $table = 'role';
 	protected $primaryKey = 'id';
 
+	const ROLE_ADMIN = 3;
+
 	protected $casts = [
 		'order' => 'int'
 	];
@@ -46,5 +48,16 @@ class Role extends Eloquent
 	public function role_user()
     {
         return $this->hasMany('App\Modules\System\Models\UserRole','role_id','id');
+    }
+
+    //角色的所有权限
+    public function permissions(){
+        return $this->belongsToMany(AuthMenu::class,'role_authmenu','role_id','auth_menu_id')->withPivot('auth_menu_id','role_id');
+    }
+
+
+    //角色赋予权限
+    public function assigePermission($permission){
+        return $this->permissions()->sync($permission);
     }
 }

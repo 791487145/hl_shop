@@ -9,50 +9,62 @@ use App\User;
 use Illuminate\Support\Facades\Auth;
 use Validator;
 use Log;
+use DB;
 
 class ManageController extends SystemController
 {
-    public function systemList(Request $request,User $user)
+    public function user(Request $request)
     {
-        return $this->formatResponse('nihao');
+        $users = User::whereStatus(User::STATUS_NORMAL)->select('id','name','email','created_at')->get();
+        foreach ($users as $user){
+            $role = $user->roles()->where('user_role.role_id','<',3)->first();
+            $user->role = $role->name;
+        }
+        return $this->formatResponse('获取成功',$this->successStatus,$users);
     }
 
-
-    public function roleList(Request $request,Role $role)
-    {
-        $roles = Role::orderBy('order', 'desc')->get();
-        return $this->formatResponse('获取成功',$this->successStatus,$roles);
-    }
-
-    public function roleCreate(Request $request)
+    public function userCreate(Request $request)
     {
         $data = $request->all();
         $validator = Validator::make($data,[
-            'name' => 'required|unique:role',
-            'order' => 'required|integer|min:1',
+            'name' => 'required',
+            'email' => 'required|email|unique:user',
+            'password' => 'required',
         ],[
-            'name.required' => '请填写角色名',
-            'name.unique' => '该角色名已存在',
-            'order.integer' => '请输入整数',
-            'order.min' => '最小值为1',
+            'name.required' => '请填写用户名',
+            'email.required' => '请添加登录名',
+            'email.email' => '格式不正确',
+            'email.unique' => '该账号已注册',
+            'password.required' => '请输入密码',
         ]);
         $error = $validator->errors()->all();
         if(count($error)){
             return $this->formatResponse($error[0],$this->errorStatus, $error);
         }
-
-        $role = new Role();
-        $role->name = $data['name'];
-        $role->description = $data['description'];
-        $role->order = isset($data['order']) ? $data['order'] : 1;
-        $role->save();
+        
+        $data['password'] = bcrypt($data['password']);
+        DB::transaction(function () use($data,$request){
+            $user = User::create($data);
+            $user->assigeRole($request->post('role_id'));
+            $success['token'] =  $user->createToken('MyApp')->accessToken;
+            $success['name'] =  $user->name;
+        });
 
         return $this->formatResponse('添加成功');
     }
 
-    public function roleUpdate(Request $request)
+    public function userDelete(Request $request)
     {
+        $user = User::whereId($request->post('user_id'))->first();
+        $role = $user->roles()->first();
+        if($role->id == Role::ROLE_ADMIN){
+            return $this->formatResponse('无权限删除超级管理员');
+        }
 
+        $user->deleteRole($role);
+        User::distory($request->post('user_id'));
+        return $this->formatResponse('删除成功');
     }
+
 
 }

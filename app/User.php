@@ -35,6 +35,9 @@ class User extends Authenticatable
 {
     use Notifiable,HasApiTokens;
 
+    const STATUS_NORMAL = 1;
+    const STATUS_DISABLE = 0;
+
     /**
      * The attributes that are mass assignable.
      *
@@ -54,7 +57,11 @@ class User extends Authenticatable
     ];
 
     public function roles(){
-        return $this->belongsToMany(Role::class,'role_authmenu','user_id','role_id')->withPivot('user_id','role_id');
+        return $this->belongsToMany(Role::class,'user_role','user_id','role_id')->withPivot('user_id','role_id');
+    }
+
+    public function deleteRole($roles){
+        return $this->roles()->detach($roles);
     }
 
     public function assigeRole($roles){

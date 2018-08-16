@@ -282,7 +282,7 @@ class Common
      * @param string $level level标记字段
      * @return array
      */
-    static function listToTree($list, $pk='id', $pid = 'pid', $child = '_child', $root = 0)
+    static function listToTree($list,$pk='id', $pid = 'pid', $child = '_child', $root = 0)
     {
         // 创建Tree
         $tree = array();
