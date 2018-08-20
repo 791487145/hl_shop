@@ -6,6 +6,7 @@ use App\Modules\System\Models\Role;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Collection;
 
 /**
  * App\User
@@ -66,5 +67,19 @@ class User extends Authenticatable
 
     public function assigeRole($roles){
         return $this->roles()->sync($roles);
+    }
+
+    public function hasPermission($permission){
+        return $this->isInroles($permission->roles);
+    }
+
+    //是否有某些角色
+    public function isInroles($roles){
+
+        if($roles instanceof Collection){
+            return $this->roles->intersect($roles)->count();
+        }else{
+            return $this->roles->contains($roles);
+        }
     }
 }

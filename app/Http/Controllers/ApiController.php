@@ -11,6 +11,10 @@ class ApiController extends BaiseController
     public $successStatus = 200;
     public $errorStatus = 201;
 
+    public $buyer = 1;
+    public $shopeeker = 2;
+    public $admin = 3;
+
 
     public function formatResponse($msg, $code = 200, $data = '',$statusCode = 200)
     {

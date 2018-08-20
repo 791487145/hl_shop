@@ -8,7 +8,9 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Input;
+use Illuminate\Support\Facades\Route;
 use Validator;
 use Log;
 
@@ -67,6 +69,11 @@ class RoleController extends SystemController
     public function roleUpdate(Request $request)
     {
         $data = $request->all();
+
+        if($data['role_id'] <= 3 ){
+            return $this->formatResponse('暂时没有权限');
+        }
+
         $validator = Validator::make($data,[
             'role_id' => 'required|integer'
         ],[
@@ -93,6 +100,10 @@ class RoleController extends SystemController
         $user_role = $role->role_user;
         if(!$user_role->isEmpty()){
             return $this->formatResponse('该角色下有多个账号，不能删除',$this->errorStatus);
+        }
+
+        if($role->id <= 3 ){
+            return $this->formatResponse('暂时没有权限');
         }
 
         $role->destroy($request->post('role_id'));

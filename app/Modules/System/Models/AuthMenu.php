@@ -45,4 +45,9 @@ class AuthMenu extends Eloquent
 		'status',
 		'title'
 	];
+
+    //权限属于哪个角色
+    public function roles(){
+        return $this->belongsToMany(Role::class,'role_authmenu','auth_menu_id','role_id')->withPivot('auth_menu_id','role_id');
+    }
 }

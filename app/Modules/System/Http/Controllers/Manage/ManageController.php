@@ -2,23 +2,27 @@
 namespace App\Modules\System\Http\Controllers\Manage;
 
 use App\Modules\System\Http\Controllers\SystemController;
+use App\Modules\System\Models\AuthMenu;
 use App\Modules\System\Models\Role;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\User;
+use Illuminate\Routing\Route;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use Validator;
 use Log;
 use DB;
 
 class ManageController extends SystemController
 {
-    public function user(Request $request)
+
+    public function userList(Request $request)
     {
         $users = User::whereStatus(User::STATUS_NORMAL)->select('id','name','email','created_at')->get();
         foreach ($users as $user){
-            $role = $user->roles()->where('user_role.role_id','<',3)->first();
-            $user->role = $role->name;
+            $role = $user->roles()->where('user_role.role_id','>=',3)->first();
+            $user->role = isset($role->name) ? $role->name : '请设置权限';
         }
         return $this->formatResponse('获取成功',$this->successStatus,$users);
     }
@@ -49,8 +53,28 @@ class ManageController extends SystemController
             $success['token'] =  $user->createToken('MyApp')->accessToken;
             $success['name'] =  $user->name;
         });
-
         return $this->formatResponse('添加成功');
+    }
+
+    public function userInfo(Request $request)
+    {
+        $user = User::whereId($request->post('user_id'))->first();
+        $user->role_id = $user->roles()->pluck('id');
+        $roles = Role::get();
+
+        $data = array(
+            'user' => $user,
+            'roles' => $roles
+        );
+        return $this->formatResponse('获取成功',$this->successStatus,$data);
+    }
+
+    public function userUpdate(Request $request)
+    {
+        $name = $request->post('name');
+        $email = $request->post('email');
+        User::whereId($request->post('user_id'))->update(['name' => $name,'email' => $email]);
+        return $this->formatResponse('修改成功');
     }
 
     public function userDelete(Request $request)
@@ -65,6 +89,17 @@ class ManageController extends SystemController
         User::distory($request->post('user_id'));
         return $this->formatResponse('删除成功');
     }
+
+    public function passwordReset(Request $request)
+    {
+        $user = Auth::user();
+        if($user->password != bcrypt($request->post('old_password'))){
+            return $this->formatResponse('原密码不正确');
+        }
+        $user->update(['password' => $request->post('new_password')]);
+        return $this->formatResponse('修改成功');
+    }
+
 
 
 }
