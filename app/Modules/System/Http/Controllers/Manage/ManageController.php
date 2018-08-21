@@ -1,7 +1,7 @@
 <?php
 namespace App\Modules\System\Http\Controllers\Manage;
 
-use App\Modules\System\Http\Controllers\ShopeekerController;
+use App\Modules\System\Http\Controllers\SystemController;
 use App\Modules\System\Models\AuthMenu;
 use App\Modules\System\Models\Role;
 use Illuminate\Http\Request;
@@ -14,7 +14,7 @@ use Validator;
 use Log;
 use DB;
 
-class ManageController extends ShopeekerController
+class ManageController extends SystemController
 {
 
     public function userList(Request $request)

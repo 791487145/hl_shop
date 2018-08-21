@@ -2,6 +2,7 @@
 namespace App\Modules\System\Http\Controllers\Manage;
 
 use App\Modules\System\Http\Controllers\ShopeekerController;
+use App\Modules\System\Http\Controllers\SystemController;
 use App\Modules\System\Models\AuthMenu;
 use App\Modules\System\Models\Role;
 use Illuminate\Http\Request;
@@ -12,7 +13,7 @@ use Illuminate\Support\Facades\Input;
 use Validator;
 use Log;
 
-class IndexController extends ShopeekerController
+class IndexController extends SystemController
 {
     public function index(Request $request)
     {
