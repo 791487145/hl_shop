@@ -23,7 +23,7 @@ class UploadController extends ApiController
                 Storage::delete($agency_accessory_Info->account_apply);
             }*/
             $pic = Storage::putFile('shopeeker',$request->file('file'));
-            dd($pic);
+            return $this->formatResponse('上传成功',$this->successStatus,$pic);
         }
     }
 
