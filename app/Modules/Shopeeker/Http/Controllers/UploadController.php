@@ -17,6 +17,8 @@ class UploadController extends ApiController
 
     public function upload(Request $request)
     {
+		$a = $request->all();
+		Log::alert('a'.print_r($a,true));
         if($request->file('file')){
             Log::alert('file'.print_r($_FILES['file'],true));
            /* if(isset($agency_accessory_Info->account_apply)){
