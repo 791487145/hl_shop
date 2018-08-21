@@ -1,7 +1,7 @@
 <?php
 namespace App\Modules\System\Http\Controllers\Manage;
 
-use App\Modules\System\Http\Controllers\SystemController;
+use App\Modules\System\Http\Controllers\ShopeekerController;
 use App\Modules\System\Models\AuthMenu;
 use App\Modules\System\Models\Role;
 use Illuminate\Http\Request;
@@ -14,12 +14,12 @@ use Validator;
 use Log;
 use DB;
 
-class ManageController extends SystemController
+class ManageController extends ShopeekerController
 {
 
     public function userList(Request $request)
     {
-        $users = User::whereStatus(User::STATUS_NORMAL)->select('id','name','email','created_at')->get();
+        $users = User::whereStatus(User::STATUS_NORMAL)->select('id','name','mobile','created_at')->get();
         foreach ($users as $user){
             $role = $user->roles()->where('user_role.role_id','>=',3)->first();
             $user->role = isset($role->name) ? $role->name : '请设置权限';
@@ -32,13 +32,12 @@ class ManageController extends SystemController
         $data = $request->all();
         $validator = Validator::make($data,[
             'name' => 'required',
-            'email' => 'required|email|unique:user',
+            'mobile' => 'required|unique:users',
             'password' => 'required',
         ],[
             'name.required' => '请填写用户名',
-            'email.required' => '请添加登录名',
-            'email.email' => '格式不正确',
-            'email.unique' => '该账号已注册',
+            'mobile.required' => '请添加登录名',
+            'mobile.unique' => '该账号已注册',
             'password.required' => '请输入密码',
         ]);
         $error = $validator->errors()->all();
@@ -72,8 +71,8 @@ class ManageController extends SystemController
     public function userUpdate(Request $request)
     {
         $name = $request->post('name');
-        $email = $request->post('email');
-        User::whereId($request->post('user_id'))->update(['name' => $name,'email' => $email]);
+        $mobile = $request->post('mobile');
+        User::whereId($request->post('user_id'))->update(['name' => $name,'mobile' => $mobile]);
         return $this->formatResponse('修改成功');
     }
 

@@ -1,7 +1,7 @@
 <?php
 namespace App\Modules\System\Http\Controllers\Manage;
 
-use App\Modules\System\Http\Controllers\SystemController;
+use App\Modules\System\Http\Controllers\ShopeekerController;
 use App\Modules\System\Models\AuthMenu;
 use App\Modules\System\Models\Role;
 use Illuminate\Http\Request;
@@ -12,7 +12,7 @@ use Illuminate\Support\Facades\Input;
 use Validator;
 use Log;
 
-class PermissionController extends SystemController
+class PermissionController extends ShopeekerController
 {
 
 

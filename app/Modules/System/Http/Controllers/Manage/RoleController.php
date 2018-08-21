@@ -1,7 +1,7 @@
 <?php
 namespace App\Modules\System\Http\Controllers\Manage;
 
-use App\Modules\System\Http\Controllers\SystemController;
+use App\Modules\System\Http\Controllers\ShopeekerController;
 use App\Modules\System\Models\AuthMenu;
 use App\Modules\System\Models\Role;
 use Illuminate\Http\Request;
@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Route;
 use Validator;
 use Log;
 
-class RoleController extends SystemController
+class RoleController extends ShopeekerController
 {
     public function roleList(Request $request,Role $role)
     {

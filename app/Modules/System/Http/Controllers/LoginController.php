@@ -18,11 +18,13 @@ class LoginController extends ApiController
      * @return \Illuminate\Http\Response
      */
     public function login(){
-        if(Auth::attempt(['email' => request('email'), 'password' => request('password')])){
+        if(Auth::attempt(['mobile' => request('mobile'), 'password' => request('password')])){
             $user = Auth::user();
             if($user->status != 1){
                 return $this->formatResponse('该用户已被禁止登陆',$this->errorStatus);
             }
+
+            $user->oauth_access_token()->delete();
             $success['token'] =  $user->createToken('MyApp')->accessToken;
             return response()->json(['success' => $success], $this->successStatus);
         }
@@ -31,10 +33,4 @@ class LoginController extends ApiController
         }
     }
 
-    /* public function getDetails(Request $request)
-    {
-        //Log::alert('res'.print_r($request,true));
-        $user = Auth::user();
-        return response()->json(['success' => $user], $this->successStatus);
-    }*/
 }

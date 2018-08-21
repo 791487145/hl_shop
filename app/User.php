@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Models\OauthAccessToken;
 use App\Modules\System\Models\Role;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
@@ -13,7 +14,7 @@ use Illuminate\Support\Collection;
  *
  * @property int $id
  * @property string $name
- * @property string $email
+ * @property string $mobile
  * @property string $password
  * @property int|null $status 1:正常；0禁用
  * @property string|null $remember_token
@@ -23,7 +24,7 @@ use Illuminate\Support\Collection;
  * @property-read \Illuminate\Notifications\DatabaseNotificationCollection|\Illuminate\Notifications\DatabaseNotification[] $notifications
  * @property-read \Illuminate\Database\Eloquent\Collection|\Laravel\Passport\Token[] $tokens
  * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereEmail($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereMobile($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\User wherePassword($value)
@@ -31,6 +32,8 @@ use Illuminate\Support\Collection;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereStatus($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\User whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\OauthAccessToken[] $oauth_access_token
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Modules\System\Models\Role[] $roles
  */
 class User extends Authenticatable
 {
@@ -38,14 +41,14 @@ class User extends Authenticatable
 
     const STATUS_NORMAL = 1;
     const STATUS_DISABLE = 0;
-
+    protected $table = 'users';
     /**
      * The attributes that are mass assignable.
      *
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password',
+        'name', 'mobile', 'password',
     ];
 
     /**
@@ -56,6 +59,11 @@ class User extends Authenticatable
     protected $hidden = [
         'password', 'remember_token',
     ];
+
+    public function oauth_access_token()
+    {
+        return $this->hasMany(OauthAccessToken::class,'user_id','id');
+    }
 
     public function roles(){
         return $this->belongsToMany(Role::class,'user_role','user_id','role_id')->withPivot('user_id','role_id');

@@ -28,6 +28,11 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Modules\System\Models\AuthMenu whereTitle($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Modules\System\Models\AuthMenu whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property string|null $url
+ * @property int|null $order 排序
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Modules\System\Models\Role[] $roles
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Modules\System\Models\AuthMenu whereOrder($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Modules\System\Models\AuthMenu whereUrl($value)
  */
 class AuthMenu extends Eloquent
 {

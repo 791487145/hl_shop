@@ -14,13 +14,5 @@ use Log;
 class SystemController extends ApiController
 {
     public $name;
-    public function __construct(Route $route)
-    {
-        /*$name = $route->getName();
-        $permission = AuthMenu::whereName($name)->firstOrFail();
-
-        $ret = Auth::user()->hasPermission($permission);
-        dd($ret);*/
-    }
 
 }
