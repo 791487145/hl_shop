@@ -30,11 +30,16 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  * @property int $status 0未通过；1通过；2禁用
  * @property \Carbon\Carbon|null $created_at
  * @property \Carbon\Carbon|null $updated_at
+ * @property string|null $business_agree_pic
+ * @property string|null $business_code_pic
+ * @property string|null $sccial_agency_code_pic
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Modules\Shopeeker\Models\Shopeeker whereAgencyMobile($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Modules\Shopeeker\Models\Shopeeker whereAgencyName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Modules\Shopeeker\Models\Shopeeker whereArea($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Modules\Shopeeker\Models\Shopeeker whereBusinessAgree($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Modules\Shopeeker\Models\Shopeeker whereBusinessAgreePic($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Modules\Shopeeker\Models\Shopeeker whereBusinessCode($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Modules\Shopeeker\Models\Shopeeker whereBusinessCodePic($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Modules\Shopeeker\Models\Shopeeker whereCity($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Modules\Shopeeker\Models\Shopeeker whereCompanyName($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Modules\Shopeeker\Models\Shopeeker whereContractSale($value)
@@ -43,6 +48,7 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Modules\Shopeeker\Models\Shopeeker whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Modules\Shopeeker\Models\Shopeeker whereProvince($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Modules\Shopeeker\Models\Shopeeker whereSccialAgencyCode($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Modules\Shopeeker\Models\Shopeeker whereSccialAgencyCodePic($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Modules\Shopeeker\Models\Shopeeker whereSslNumStatus($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Modules\Shopeeker\Models\Shopeeker whereStatus($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Modules\Shopeeker\Models\Shopeeker whereUpdatedAt($value)
@@ -51,6 +57,10 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  */
 class Shopeeker extends Eloquent
 {
+    const STATUS_FAIL = 0;
+    const STATUS_SUCCESS = 1;
+    const STATUS_FORBBIN = 2;
+
 	protected $table = 'shopeeker';
 	protected $primaryKey = 'id';
 

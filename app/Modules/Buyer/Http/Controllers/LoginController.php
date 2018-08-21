@@ -1,5 +1,5 @@
 <?php
-namespace App\Modules\Shopeeker\Http\Controllers;
+namespace App\Modules\Buyer\Http\Controllers;
 
 use App\Http\Controllers\ApiController;
 use App\Modules\Shopeeker\Models\Shopeeker;

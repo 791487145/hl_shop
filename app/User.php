@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Models\OauthAccessToken;
+use App\Modules\Shopeeker\Models\Shopeeker;
 use App\Modules\System\Models\Role;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Passport\HasApiTokens;
@@ -89,5 +90,10 @@ class User extends Authenticatable
         }else{
             return $this->roles->contains($roles);
         }
+    }
+
+    public function shopeeker()
+    {
+        return $this->hasOne(Shopeeker::class,'user_id','id');
     }
 }

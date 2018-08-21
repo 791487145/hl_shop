@@ -19,10 +19,18 @@ Route::prefix('shopeeker')->group(function () {
     Route::post('register', 'LoginController@register');
     Route::post('mobile', 'LoginController@checkMobile');
     Route::post('upload', 'UploadController@upload');
+    Route::post('fileDelete', 'UploadController@fileDelete');
 
-    /*Route::group(['middleware' => 'auth:api'], function () {
+    Route::group(['middleware' => 'auth:api'], function () {
+
+        Route::namespace('Center')->group(function () {
+            Route::post('center/passwordReset', 'CenterController@passwordReset');
+            Route::post('center/contractList', 'CenterController@contractList');
+        });
+
+    });
 
 
-    });*/
+
 
 });
