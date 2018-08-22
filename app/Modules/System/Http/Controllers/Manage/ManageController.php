@@ -72,7 +72,15 @@ class ManageController extends SystemController
     {
         $name = $request->post('name');
         $mobile = $request->post('mobile');
+        $role_id = $request->post('role_id',0);
         User::whereId($request->post('user_id'))->update(['name' => $name,'mobile' => $mobile]);
+        if($role_id == $this->shopeeker || $role_id == $this->buyer){
+            return $this->formatResponse('采购或供应商角色只能在相关菜单下操作');
+        }
+
+        if(!is_null($role_id)){
+            User::whereId($request->post('user_id'))->first()->assigeRole($role_id);
+        }
         return $this->formatResponse('修改成功');
     }
 

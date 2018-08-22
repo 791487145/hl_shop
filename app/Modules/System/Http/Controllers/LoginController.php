@@ -20,6 +20,7 @@ class LoginController extends ApiController
     public function login(){
         if(Auth::attempt(['mobile' => request('mobile'), 'password' => request('password')])){
             $user = Auth::user();
+            //dd($user);
             if($user->status != 1){
                 return $this->formatResponse('该用户已被禁止登陆',$this->errorStatus);
             }

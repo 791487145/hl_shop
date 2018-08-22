@@ -7,6 +7,8 @@
 
 namespace App\Modules\Shopeeker\Models;
 
+use App\Modules\System\Models\ConfCity;
+use App\User;
 use Reliese\Database\Eloquent\Model as Eloquent;
 
 
@@ -54,6 +56,14 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Modules\Shopeeker\Models\Shopeeker whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Modules\Shopeeker\Models\Shopeeker whereUserId($value)
  * @mixin \Eloquent
+ * @property string|null $agency_id_card
+ * @property string|null $brought_account 对公账号
+ * @property string|null $brought_bank 对公银行
+ * @property string|null $brought_other_bank 对公开户支行
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Modules\Shopeeker\Models\Shopeeker whereAgencyIdCard($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Modules\Shopeeker\Models\Shopeeker whereBroughtAccount($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Modules\Shopeeker\Models\Shopeeker whereBroughtBank($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Modules\Shopeeker\Models\Shopeeker whereBroughtOtherBank($value)
  */
 class Shopeeker extends Eloquent
 {
@@ -89,4 +99,42 @@ class Shopeeker extends Eloquent
 		'ssl_num_status',
 		'status'
 	];
+
+    public function user()
+    {
+        return $this->hasOne(User::class,'id','user_id');
+    }
+
+    static function shopeeker($shopeeker)
+    {
+        $province = ConfCity::whereId($shopeeker->province)->pluck('name');
+        $city = ConfCity::whereId($shopeeker->city)->pluck('name');
+        $area = ConfCity::whereId($shopeeker->area)->pluck('name');
+        $shopeeker->statusCN = self::statusCN($shopeeker->status);
+        $shopeeker->ssl_num_status_CN = self::ssl_status_CN($shopeeker->ssl_num_status);
+        $shopeeker->district = $province.$city.$area;
+        return $shopeeker;
+    }
+
+    static function statusCN($st)
+    {
+        $status = array(
+            0 => '禁用',
+            1 => '通过',
+        );
+
+        return $status[$st];
+    }
+
+    static function ssl_status_CN($st)
+    {
+        $status = array(
+            0 => '未认证',
+            1 => '认证'
+        );
+
+        return $status[$st];
+    }
+
+
 }

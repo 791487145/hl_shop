@@ -27,7 +27,14 @@ class UploadController extends ApiController
     {
         $file = $request->post('file');
         $ret = Storage::delete($file);
-        dd($ret);
+        //dd($ret);
+    }
+
+    public function download(Request $request)
+    {
+        $a = 'shopeeker\/H60nFctIrbzaFtecGqNp3viMc5aYieRS0KlLQ7L5.xls';
+
+        return Storage::download($a,'demo');
     }
 
 }

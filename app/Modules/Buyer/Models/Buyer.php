@@ -63,6 +63,9 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  */
 class Buyer extends Eloquent
 {
+    const STATUS_NORMAL = 1;
+    const STATUS_DISABLE = 0;
+
 	protected $table = 'buyer';
 	protected $primaryKey = 'id';
 

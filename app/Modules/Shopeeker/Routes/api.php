@@ -20,6 +20,7 @@ Route::prefix('shopeeker')->group(function () {
     Route::post('mobile', 'LoginController@checkMobile');
     Route::post('upload', 'UploadController@upload');
     Route::post('fileDelete', 'UploadController@fileDelete');
+    Route::get('download', 'UploadController@download');
 
     Route::group(['middleware' => 'auth:api'], function () {
 
