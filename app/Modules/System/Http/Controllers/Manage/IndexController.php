@@ -18,7 +18,7 @@ class IndexController extends SystemController
     public function index(Request $request)
     {
         $user = Auth::user();
-        $menu = $user->roles()->first()->permissions;
+        $menu = $user->roles()->first()->permissions->where('tier','<',2)->toArray();
         $menus = \Common::listToTree($menu,'id','parent_id');
 
         return $this->formatResponse('获取成功',$this->successStatus,$menus);
