@@ -87,13 +87,14 @@ class ManageController extends SystemController
     public function userDelete(Request $request)
     {
         $user = User::whereId($request->post('user_id'))->first();
-        $role = $user->roles()->first();
-        if($role->id == Role::ROLE_ADMIN){
+        $role = $user->roles->first();
+
+        if(!is_null($role) && $role->id == Role::ROLE_ADMIN){
             return $this->formatResponse('无权限删除超级管理员');
         }
 
         $user->deleteRole($role);
-        User::distory($request->post('user_id'));
+        User::destroy($request->post('user_id'));
         return $this->formatResponse('删除成功');
     }
 
