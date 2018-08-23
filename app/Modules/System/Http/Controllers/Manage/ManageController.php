@@ -64,7 +64,7 @@ class ManageController extends SystemController
             $user->role_id = $role->id;
         }
 
-        $roles = Role::get();
+        $roles = Role::select('id','name')->get();
 
         $data = array(
             'user' => $user,
@@ -108,7 +108,7 @@ class ManageController extends SystemController
 
     public function passwordReset(Request $request)
     {
-        $user = Auth::user();
+        $user = User::whereId($request->post('user_id'))->first();
         if($user->password != bcrypt($request->post('old_password'))){
             return $this->formatResponse('原密码不正确');
         }
