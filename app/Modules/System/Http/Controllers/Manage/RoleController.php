@@ -33,11 +33,11 @@ class RoleController extends SystemController
             'name.required' => '请填写角色名',
             'name.unique' => '该角色名已存在',
             'order.integer' => '请输入整数',
-            'order.min' => '最小值为1',
+            'order.min' => 'order最小值为1',
         ]);
         $error = $validator->errors()->all();
         if(count($error)){
-            return $this->formatResponse($error[0],$this->errorStatus, $error);
+            return $this->formatResponse($error[0],$this->errorStatus);
         }
 
         $role = new Role();
@@ -60,7 +60,7 @@ class RoleController extends SystemController
         ]);
         $error = $validator->errors()->all();
         if(count($error)){
-            return $this->formatResponse($error[0],$this->errorStatus, $error);
+            return $this->formatResponse($error[0],$this->errorStatus);
         }
 
         $role = Role::whereId($request->post('role_id'))->firstOrFail();
@@ -97,7 +97,7 @@ class RoleController extends SystemController
 
     public function roleDelete(Request $request)
     {
-        $role = Role::whereId($request->post('role_id'))->firstOrFail();
+        $role = Role::whereId($request->post('role_id'))->first();
         $user_role = $role->role_user;
         if(!$user_role->isEmpty()){
             return $this->formatResponse('该角色下有多个账号，不能删除',$this->errorStatus);

@@ -109,10 +109,15 @@ class ManageController extends SystemController
     public function passwordReset(Request $request)
     {
         $user = User::whereId($request->post('user_id'))->first();
-        if($user->password != bcrypt($request->post('old_password'))){
-            return $this->formatResponse('原密码不正确');
+        $role = $user->roles->first();
+        if(!is_null($role)){
+            $u = Auth::user();
+            if($role->id == $this->admin && $u->id != $user->id){
+                return $this->formatResponse('超级管理员密码只能自己修改',$this->errorStatus);
+            }
         }
-        $user->update(['password' => $request->post('new_password')]);
+
+        $user->update(['password' => bcrypt($request->post('new_password'))]);
         return $this->formatResponse('修改成功');
     }
 

@@ -31,9 +31,9 @@ Route::prefix('system')->group(function () {
 
             Route::post('role', 'RoleController@roleList')->name('role');
             Route::post('role/create', 'RoleController@roleCreate')->name('roleCreate');
-            Route::post('role/update', 'RoleController@roleUpdate');
+            Route::post('role/update', 'RoleController@roleUpdate')->name('roleUpdate');
             Route::post('role/info', 'RoleController@roleInfo')->name('roleInfo');
-            Route::delete('role/delete', 'RoleController@roleDelete')->name('roleDelete');
+            Route::post('role/delete', 'RoleController@roleDelete')->name('roleDelete');
             Route::post('role/assignPermission', 'RoleController@assignPermission')->name('assignPermission');
             Route::post('role/permissionList', 'RoleController@permissionList')->name('permissionList');
 
