@@ -6,7 +6,7 @@ use App\Modules\System\Models\AuthMenu;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\User;
-use Illuminate\Routing\Route;
+use Route;
 use Illuminate\Support\Facades\Auth;
 use Validator;
 use Log;

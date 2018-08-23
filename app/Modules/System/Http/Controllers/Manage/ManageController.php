@@ -58,7 +58,12 @@ class ManageController extends SystemController
     public function userInfo(Request $request)
     {
         $user = User::whereId($request->post('user_id'))->first();
-        $user->role_id = $user->roles()->pluck('id');
+        $role = $user->roles()->first();
+        $user->role_id = 0;
+        if(!is_null($role)){
+            $user->role_id = $role->id;
+        }
+
         $roles = Role::get();
 
         $data = array(
@@ -87,6 +92,9 @@ class ManageController extends SystemController
     public function userDelete(Request $request)
     {
         $user = User::whereId($request->post('user_id'))->first();
+        if(is_null($user)){
+            return $this->formatResponse('该用户不存在');
+        }
         $role = $user->roles->first();
 
         if(!is_null($role) && $role->id == Role::ROLE_ADMIN){
