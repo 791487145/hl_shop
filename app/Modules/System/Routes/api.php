@@ -22,20 +22,20 @@ Route::prefix('system')->group(function () {
         Route::namespace('Manage')->group(function () {
             Route::post('index', 'IndexController@index')->name('index');
 
-            Route::post('user', 'ManageController@userList')->name('user')->middleware('can:user');
-            Route::post('user/create', 'ManageController@userCreate')->name('userCreate')->middleware('can:userCreate');
-            Route::post('user/delete', 'ManageController@userDelete')->name('userDelete')->middleware('can:userDelete');
-            Route::post('user/info', 'ManageController@userInfo')->name('userInfo')->middleware('can:userInfo');
-            Route::post('user/update', 'ManageController@userUpdate')->name('userUpdate')->middleware('can:userUpdate');
-            Route::post('user/passwordReset', 'ManageController@passwordReset')->name('passwordReset')->middleware('can:passwordReset');
+            Route::post('user', 'ManageController@userList')->name('user');
+            Route::post('user/create', 'ManageController@userCreate')->name('userCreate');
+            Route::post('user/delete', 'ManageController@userDelete')->name('userDelete');
+            Route::post('user/info', 'ManageController@userInfo')->name('userInfo');
+            Route::post('user/update', 'ManageController@userUpdate')->name('userUpdate');
+            Route::post('user/passwordReset', 'ManageController@passwordReset')->name('passwordReset');
 
-            Route::post('role', 'RoleController@roleList')->name('role')->middleware('can:role');
-            Route::post('role/create', 'RoleController@roleCreate')->name('roleCreate')->middleware('can:roleCreate');
-            Route::post('role/update', 'RoleController@roleUpdate')->middleware('can:roleUpdate');
-            Route::post('role/info', 'RoleController@roleInfo')->name('roleInfo')->middleware('can:roleInfo');
-            Route::delete('role/delete', 'RoleController@roleDelete')->name('roleDelete')->middleware('can:roleDelete');
-            Route::post('role/assignPermission', 'RoleController@assignPermission')->name('assignPermission')->middleware('can:assignPermission');
-            Route::post('role/permissionList', 'RoleController@permissionList')->name('permissionList')->middleware('can:permissionList');
+            Route::post('role', 'RoleController@roleList')->name('role');
+            Route::post('role/create', 'RoleController@roleCreate')->name('roleCreate');
+            Route::post('role/update', 'RoleController@roleUpdate');
+            Route::post('role/info', 'RoleController@roleInfo')->name('roleInfo');
+            Route::delete('role/delete', 'RoleController@roleDelete')->name('roleDelete');
+            Route::post('role/assignPermission', 'RoleController@assignPermission')->name('assignPermission');
+            Route::post('role/permissionList', 'RoleController@permissionList')->name('permissionList');
 
             Route::post('permission/create', 'PermissionController@permissionCreate');
         });
