@@ -47,6 +47,12 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  */
 class BuyerOrder extends Eloquent
 {
+    const ORDER_NOT_EFFECT = 0;
+    const ORDER_EFFECT = 1;
+    const ORDER_END = 2;
+    const ORDER_REFUND = 3;
+
+
 	protected $table = 'buyer_order';
 	protected $primaryKey = 'id';
 	public $incrementing = false;

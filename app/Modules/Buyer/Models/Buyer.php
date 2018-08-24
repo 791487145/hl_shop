@@ -7,6 +7,7 @@
 
 namespace App\Modules\Buyer\Models;
 
+use App\User;
 use Reliese\Database\Eloquent\Model as Eloquent;
 
 
@@ -97,4 +98,36 @@ class Buyer extends Eloquent
 		'contract_use',
 		'contract_sale'
 	];
+
+	public function user()
+    {
+        return $this->hasOne(User::class,'id','users_id');
+    }
+
+    static function buyer($buyer)
+    {
+        $buyer->statusCN = self::statusCN($buyer->status);
+        $buyer->ssl_num_status_CN = self::ssl_status_CN($buyer->ssl_num_status);
+        return $buyer;
+    }
+
+    static function statusCN($st)
+    {
+        $status = array(
+            0 => '禁用',
+            1 => '通过',
+        );
+
+        return $status[$st];
+    }
+
+    static function ssl_status_CN($st)
+    {
+        $status = array(
+            0 => '未认证',
+            1 => '认证'
+        );
+
+        return $status[$st];
+    }
 }

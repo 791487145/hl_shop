@@ -50,10 +50,24 @@ Route::prefix('system')->group(function () {
 
 
             Route::post('buyer', 'BuyerController@buyerList')->name('buyer');
+            Route::post('buyer/create', 'BuyerController@buyerCreate')->name('buyerCreate');
+            Route::post('buyer/info', 'BuyerController@buyerInfo')->name('buyerInfo');
+            Route::post('buyer/update', 'BuyerController@buyerUpdate')->name('buyerUpdate');
+            Route::post('buyer/passwordReset', 'BuyerController@buyerPasswordReset')->name('buyerPasswordReset');
+            Route::post('buyer/statusChange', 'BuyerController@buyerStatusChange')->name('buyerStatusChange');
+
+            Route::post('buyer/contract/create', 'OrderController@contractCreate')->name('contractCreate');
+            Route::post('buyer/order/submit', 'OrderController@orderSubmit')->name('orderSubmit');
 
         });
 
+
+        Route::post('excel/export','ExcelController@export');
+        Route::post('excel/import','ExcelController@import');
+
     });
+
+
 
 
 
