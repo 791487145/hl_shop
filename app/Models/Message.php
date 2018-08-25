@@ -10,35 +10,36 @@ namespace App\Models;
 use Reliese\Database\Eloquent\Model as Eloquent;
 
 /**
- * Class BuyerBillFile
+ * Class Message
  * 
  * @property int $id
- * @property int $bill_id
+ * @property int $from_id
+ * @property int $to_id
  * @property string $content
- * @property string $refund_file
- * @property int $user_id
+ * @property int $ide
  * @property int $status
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
  *
  * @package App\Models
  */
-class BuyerBillFile extends Eloquent
+class Message extends Eloquent
 {
-	protected $table = 'buyer_bill_file';
+	protected $table = 'message';
 	protected $primaryKey = 'id';
 
 	protected $casts = [
-		'bill_id' => 'int',
-		'user_id' => 'int',
+		'from_id' => 'int',
+		'to_id' => 'int',
+		'ide' => 'int',
 		'status' => 'int'
 	];
 
 	protected $fillable = [
-		'bill_id',
+		'from_id',
+		'to_id',
 		'content',
-		'refund_file',
-		'user_id',
+		'ide',
 		'status'
 	];
 }

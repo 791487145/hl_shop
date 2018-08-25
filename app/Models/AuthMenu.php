@@ -10,35 +10,40 @@ namespace App\Models;
 use Reliese\Database\Eloquent\Model as Eloquent;
 
 /**
- * Class BuyerBillFile
+ * Class AuthMenu
  * 
  * @property int $id
- * @property int $bill_id
- * @property string $content
- * @property string $refund_file
- * @property int $user_id
+ * @property string $name
+ * @property string $url
+ * @property int $parent_id
  * @property int $status
+ * @property int $order
+ * @property int $tier
+ * @property string $title
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
  *
  * @package App\Models
  */
-class BuyerBillFile extends Eloquent
+class AuthMenu extends Eloquent
 {
-	protected $table = 'buyer_bill_file';
+	protected $table = 'auth_menu';
 	protected $primaryKey = 'id';
 
 	protected $casts = [
-		'bill_id' => 'int',
-		'user_id' => 'int',
-		'status' => 'int'
+		'parent_id' => 'int',
+		'status' => 'int',
+		'order' => 'int',
+		'tier' => 'int'
 	];
 
 	protected $fillable = [
-		'bill_id',
-		'content',
-		'refund_file',
-		'user_id',
-		'status'
+		'name',
+		'url',
+		'parent_id',
+		'status',
+		'order',
+		'tier',
+		'title'
 	];
 }

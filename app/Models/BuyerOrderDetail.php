@@ -2,7 +2,7 @@
 
 /**
  * Created by Reliese Model.
- * Date: Wed, 22 Aug 2018 06:22:20 +0000.
+ * Date: Sat, 25 Aug 2018 17:57:34 +0800.
  */
 
 namespace App\Models;
@@ -11,7 +11,7 @@ use Reliese\Database\Eloquent\Model as Eloquent;
 
 /**
  * Class BuyerOrderDetail
- *
+ * 
  * @property int $id
  * @property string $order_no
  * @property string $goods_name
@@ -20,16 +20,8 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  * @property float $goods_total
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
+ *
  * @package App\Models
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\BuyerOrderDetail whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\BuyerOrderDetail whereGoodsName($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\BuyerOrderDetail whereGoodsNum($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\BuyerOrderDetail whereGoodsPrice($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\BuyerOrderDetail whereGoodsTotal($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\BuyerOrderDetail whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\BuyerOrderDetail whereOrderNo($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\BuyerOrderDetail whereUpdatedAt($value)
- * @mixin \Eloquent
  */
 class BuyerOrderDetail extends Eloquent
 {

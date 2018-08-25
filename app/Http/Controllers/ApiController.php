@@ -16,6 +16,10 @@ class ApiController extends BaiseController
     public $shopeeker = 2;
     public $admin = 3;
 
+    public $interest_rate = 0.00005;
+
+    public $limit = 10;
+
 
     public function formatResponse($msg, $code = 200, $data = '',$statusCode = 200)
     {

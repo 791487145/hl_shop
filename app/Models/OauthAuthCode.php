@@ -2,7 +2,7 @@
 
 /**
  * Created by Reliese Model.
- * Date: Wed, 22 Aug 2018 06:22:20 +0000.
+ * Date: Sat, 25 Aug 2018 17:57:34 +0800.
  */
 
 namespace App\Models;
@@ -11,21 +11,15 @@ use Reliese\Database\Eloquent\Model as Eloquent;
 
 /**
  * Class OauthAuthCode
- *
+ * 
  * @property string $id
  * @property int $user_id
  * @property int $client_id
  * @property string $scopes
  * @property bool $revoked
  * @property \Carbon\Carbon $expires_at
+ *
  * @package App\Models
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\OauthAuthCode whereClientId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\OauthAuthCode whereExpiresAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\OauthAuthCode whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\OauthAuthCode whereRevoked($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\OauthAuthCode whereScopes($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\OauthAuthCode whereUserId($value)
- * @mixin \Eloquent
  */
 class OauthAuthCode extends Eloquent
 {

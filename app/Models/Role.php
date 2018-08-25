@@ -10,27 +10,29 @@ namespace App\Models;
 use Reliese\Database\Eloquent\Model as Eloquent;
 
 /**
- * Class CovercharsetBill
+ * Class Role
  * 
  * @property int $id
- * @property int $bill_id
- * @property int $cover_charse_id
+ * @property string $name
+ * @property string $description
+ * @property int $order
+ * @property \Carbon\Carbon $created_at
+ * @property \Carbon\Carbon $updated_at
  *
  * @package App\Models
  */
-class CovercharsetBill extends Eloquent
+class Role extends Eloquent
 {
-	protected $table = 'covercharset_bill';
+	protected $table = 'role';
 	protected $primaryKey = 'id';
-	public $timestamps = false;
 
 	protected $casts = [
-		'bill_id' => 'int',
-		'cover_charse_id' => 'int'
+		'order' => 'int'
 	];
 
 	protected $fillable = [
-		'bill_id',
-		'cover_charse_id'
+		'name',
+		'description',
+		'order'
 	];
 }

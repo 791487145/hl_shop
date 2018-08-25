@@ -61,6 +61,15 @@ Route::prefix('system')->group(function () {
 
         });
 
+        //财务管理
+        Route::namespace('Financial')->group(function () {
+
+            Route::post('order/apply', 'OrderController@orderApply')->name('orderApply');
+
+
+
+        });
+
 
         Route::post('excel/export','ExcelController@export');
         Route::post('excel/import','ExcelController@import');

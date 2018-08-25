@@ -64,6 +64,7 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Modules\Shopeeker\Models\Shopeeker whereBroughtAccount($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Modules\Shopeeker\Models\Shopeeker whereBroughtBank($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Modules\Shopeeker\Models\Shopeeker whereBroughtOtherBank($value)
+ * @property-read \App\User $user
  */
 class Shopeeker extends Eloquent
 {

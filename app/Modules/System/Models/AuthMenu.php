@@ -33,6 +33,8 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Modules\System\Models\Role[] $roles
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Modules\System\Models\AuthMenu whereOrder($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Modules\System\Models\AuthMenu whereUrl($value)
+ * @property int|null $tier 层
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Modules\System\Models\AuthMenu whereTier($value)
  */
 class AuthMenu extends Eloquent
 {

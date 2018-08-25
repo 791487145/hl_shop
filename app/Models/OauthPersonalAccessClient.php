@@ -2,7 +2,7 @@
 
 /**
  * Created by Reliese Model.
- * Date: Wed, 22 Aug 2018 06:22:20 +0000.
+ * Date: Sat, 25 Aug 2018 17:57:34 +0800.
  */
 
 namespace App\Models;
@@ -11,17 +11,13 @@ use Reliese\Database\Eloquent\Model as Eloquent;
 
 /**
  * Class OauthPersonalAccessClient
- *
+ * 
  * @property int $id
  * @property int $client_id
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
+ *
  * @package App\Models
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\OauthPersonalAccessClient whereClientId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\OauthPersonalAccessClient whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\OauthPersonalAccessClient whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\OauthPersonalAccessClient whereUpdatedAt($value)
- * @mixin \Eloquent
  */
 class OauthPersonalAccessClient extends Eloquent
 {

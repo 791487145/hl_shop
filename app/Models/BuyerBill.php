@@ -2,7 +2,7 @@
 
 /**
  * Created by Reliese Model.
- * Date: Wed, 22 Aug 2018 06:22:20 +0000.
+ * Date: Sat, 25 Aug 2018 17:57:34 +0800.
  */
 
 namespace App\Models;
@@ -11,7 +11,7 @@ use Reliese\Database\Eloquent\Model as Eloquent;
 
 /**
  * Class BuyerBill
- *
+ * 
  * @property int $id
  * @property string $order_sn
  * @property float $month_account
@@ -22,18 +22,8 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  * @property int $end_time
  * @property \Carbon\Carbon $created_at
  * @property \Carbon\Carbon $updated_at
+ *
  * @package App\Models
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\BuyerBill whereCoverCharse($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\BuyerBill whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\BuyerBill whereEndTime($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\BuyerBill whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\BuyerBill whereMonthAccount($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\BuyerBill whereOrderSn($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\BuyerBill whereOverCoverCharse($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\BuyerBill whereRefundAccount($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\BuyerBill whereStatus($value)
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Models\BuyerBill whereUpdatedAt($value)
- * @mixin \Eloquent
  */
 class BuyerBill extends Eloquent
 {

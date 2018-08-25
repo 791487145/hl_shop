@@ -10,26 +10,23 @@ namespace App\Models;
 use Reliese\Database\Eloquent\Model as Eloquent;
 
 /**
- * Class PasswordReset
+ * Class SystemLog
  * 
- * @property string $email
- * @property string $token
+ * @property int $id
+ * @property string $name
+ * @property string $aciton
  * @property \Carbon\Carbon $created_at
+ * @property \Carbon\Carbon $updated_at
  *
  * @package App\Models
  */
-class PasswordReset extends Eloquent
+class SystemLog extends Eloquent
 {
-	protected $primaryKey = NULL;
-	public $incrementing = false;
-	public $timestamps = false;
-
-	protected $hidden = [
-		'token'
-	];
+	protected $table = 'system_log';
+	protected $primaryKey = 'id';
 
 	protected $fillable = [
-		'email',
-		'token'
+		'name',
+		'aciton'
 	];
 }

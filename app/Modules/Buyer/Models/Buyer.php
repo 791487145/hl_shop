@@ -61,6 +61,7 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Modules\Buyer\Models\Buyer whereUseAccount($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Modules\Buyer\Models\Buyer whereUsersId($value)
  * @mixin \Eloquent
+ * @property-read \App\User $user
  */
 class Buyer extends Eloquent
 {
