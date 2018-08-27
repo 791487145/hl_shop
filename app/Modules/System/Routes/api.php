@@ -64,9 +64,14 @@ Route::prefix('system')->group(function () {
         //财务管理
         Route::namespace('Financial')->group(function () {
 
+            //申请订单
             Route::post('order/apply', 'OrderController@orderApply')->name('orderApply');
+            Route::post('order/apply/info', 'OrderController@orderApplyInfo')->name('orderApplyInfo');
+            Route::post('order/apply/statusChange', 'OrderController@orderStatusChange')->name('orderStatusChange');
 
+            Route::post('order', 'OrderController@orderList')->name('order');
 
+            Route::post('order/paying', 'OrderController@orderPaying')->name('orderPaying');
 
         });
 

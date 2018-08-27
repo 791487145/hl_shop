@@ -32,22 +32,22 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  */
 class BuyerOrderDetail extends Eloquent
 {
-	protected $table = 'buyer_order_detail';
-	protected $primaryKey = 'id';
-	public $incrementing = false;
+    protected $table = 'buyer_order_detail';
+    protected $primaryKey = 'id';
+    public $incrementing = false;
 
-	protected $casts = [
-		'id' => 'int',
-		'goods_num' => 'int',
-		'goods_price' => 'float',
-		'goods_total' => 'float'
-	];
+    protected $casts = [
+        'id' => 'int',
+        'goods_num' => 'int',
+        'goods_price' => 'float',
+        'goods_total' => 'float'
+    ];
 
-	protected $fillable = [
-		'order_no',
-		'goods_name',
-		'goods_num',
-		'goods_price',
-		'goods_total'
-	];
+    protected $fillable = [
+        'order_no',
+        'goods_name',
+        'goods_num',
+        'goods_price',
+        'goods_total'
+    ];
 }

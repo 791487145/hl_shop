@@ -20,6 +20,7 @@ class ApiController extends BaiseController
 
     public $limit = 10;
 
+    public $pub = 999;
 
     public function formatResponse($msg, $code = 200, $data = '',$statusCode = 200)
     {

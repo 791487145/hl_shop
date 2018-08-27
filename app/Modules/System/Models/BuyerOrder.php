@@ -29,9 +29,12 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  * @property string|null $contract 合同
  * @property int $effective_end_time 分期截止日期
  * @property int $effective_time 订单生效日期
- * @property int $status 0未生效；1生效;2已结束；3退款提交申请；
+ * @property int $status 0未生效；1被拒;5生效;6已结束；7退款提交申请；
  * @property \Carbon\Carbon|null $created_at
  * @property \Carbon\Carbon|null $updated_at
+ * @property-read \App\Modules\Buyer\Models\Buyer $buyer
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Modules\System\Models\BuyerBill[] $order_bills
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Modules\System\Models\BuyerOrderDetail[] $order_detail
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Modules\System\Models\BuyerOrder whereAmortizeNow($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Modules\System\Models\BuyerOrder whereAmortizeTime($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Modules\System\Models\BuyerOrder whereBuyerId($value)
@@ -51,16 +54,14 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Modules\System\Models\BuyerOrder whereStatus($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Modules\System\Models\BuyerOrder whereUpdatedAt($value)
  * @mixin \Eloquent
- * @property-read \App\Modules\Buyer\Models\Buyer $buyer
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Modules\System\Models\BuyerOrderDetail[] $order_detail
  */
 class BuyerOrder extends Eloquent
 {
     const ORDER_NOT_EFFECT = 0;
-    const ORDER_EFFECT = 1;
-    const ORDER_END = 2;
-    const ORDER_REFUND = 3;
-    const ORDER_REFUSE = 4;
+    const ORDER_REFUSE = 1;
+    const ORDER_EFFECT = 5;
+    const ORDER_END = 6;
+    const ORDER_REFUND = 7;
 
 	protected $table = 'buyer_order';
 	protected $primaryKey = 'id';
@@ -100,20 +101,36 @@ class BuyerOrder extends Eloquent
 		'status'
 	];
 
+	//属于哪个导购
 	public function buyer()
     {
         return $this->belongsTo(Buyer::class,'id','buyer_id');
     }
 
+    //订单详情
     public function order_detail()
     {
         return $this->hasMany(BuyerOrderDetail::class,'order_no','order_no');
     }
 
+    //订单的所有账单
+    public function order_bills(){
+        return $this->belongsToMany(BuyerBill::class,'buyer_order_bill','order_no','order_sn')->withPivot('order_sn','order_no');
+    }
+
+    //订单生成账单
+    public function assigeOrderBill($bill){
+        return $this->order_bills()->sync($bill);
+    }
+
     static function statusCN($status)
     {
         $param = array(
-           '未生效','已生效','已完成','退款申请','订单被拒绝'
+            self::ORDER_NOT_EFFECT => '未生效',
+            self::ORDER_EFFECT => '已生效',
+            self::ORDER_END => '已完成',
+            self::ORDER_REFUND => '退款申请',
+            self::ORDER_REFUSE => '订单被拒绝'
         );
 
         return $param[$status];
