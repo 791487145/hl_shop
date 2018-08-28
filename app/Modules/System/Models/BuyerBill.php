@@ -15,14 +15,20 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  *
  * @property int $id
  * @property string $order_sn 账单编号
+ * @property int|null $buyer_id
+ * @property int|null $amortize_time 第几期账单
  * @property float $month_account 月应还款总额
  * @property float $refund_account 实际还款总额
- * @property float $over_cover_charse
- * @property float $cover_charse 服务费
- * @property int $status 0未还款；1已还款；2逾期未还；3逾期已还
+ * @property float $over_cover_charse 过期服务费
+ * @property \Illuminate\Database\Eloquent\Collection|\App\Modules\System\Models\CoverCharse[] $cover_charse 服务费
+ * @property int $status 0未还款；1已还款；2逾期未还；3逾期已还；4结束
  * @property int $end_time 账单结束日期
  * @property \Carbon\Carbon|null $created_at
  * @property \Carbon\Carbon|null $updated_at
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Modules\System\Models\BuyerBillFile[] $bill_file
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Modules\System\Models\BuyerOrder[] $buyer_order
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Modules\System\Models\BuyerBill whereAmortizeTime($value)
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Modules\System\Models\BuyerBill whereBuyerId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Modules\System\Models\BuyerBill whereCoverCharse($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Modules\System\Models\BuyerBill whereCreatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Modules\System\Models\BuyerBill whereEndTime($value)
@@ -34,9 +40,6 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Modules\System\Models\BuyerBill whereStatus($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Modules\System\Models\BuyerBill whereUpdatedAt($value)
  * @mixin \Eloquent
- * @property int|null $amortize_time 第几期账单
- * @property-read \Illuminate\Database\Eloquent\Collection|\App\Modules\System\Models\BuyerBillFile[] $bill_file
- * @method static \Illuminate\Database\Eloquent\Builder|\App\Modules\System\Models\BuyerBill whereAmortizeTime($value)
  */
 class BuyerBill extends Eloquent
 {
@@ -82,6 +85,12 @@ class BuyerBill extends Eloquent
     public function bill_file()
     {
         return $this->hasMany(BuyerBillFile::class,'bill_id','id');
+    }
+
+    //订单列表
+    public function buyer_order()
+    {
+        return $this->belongsToMany(BuyerOrder::class,'buyer_order_bill','order_sn','order_no');
     }
 
     static function statusCN($st)

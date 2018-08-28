@@ -61,7 +61,7 @@ class BuyerOrder extends Eloquent
     const ORDER_REFUSE = 1;
     const ORDER_EFFECT = 5;
     const ORDER_END = 6;
-    const ORDER_REFUND = 7;
+    const ORDER_REFUND = 10;
 
 	protected $table = 'buyer_order';
 	protected $primaryKey = 'id';

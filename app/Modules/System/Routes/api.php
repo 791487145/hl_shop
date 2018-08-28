@@ -58,6 +58,8 @@ Route::prefix('system')->group(function () {
 
             Route::post('buyer/contract/create', 'OrderController@contractCreate')->name('contractCreate');
             Route::post('buyer/order/submit', 'OrderController@orderSubmit')->name('orderSubmit');
+            Route::post('buyer/bill/myBillList', 'OrderController@myBillList')->name('myBillList');
+            Route::post('buyer/bill/fileSubmit', 'OrderController@billfileSubmit')->name('fileSubmit');
 
         });
 
@@ -72,7 +74,13 @@ Route::prefix('system')->group(function () {
             Route::post('order', 'OrderController@orderList')->name('order');
 
             Route::post('order/paying', 'OrderController@orderPaying')->name('orderPaying');
+            Route::post('order/bill/statusChange', 'OrderController@billStatusChange')->name('billStatusChange');
 
+            Route::post('order/bill/filesubmit', 'BillController@billFileSubmit')->name('billFileSubmit');
+            Route::post('order/billfile/statusChange', 'BillController@billFileStatusChange')->name('billFileStatusChange');
+            Route::post('order/billfile', 'BillController@billfileList')->name('billfile');
+
+            Route::post('order/covercharse', 'BillController@covercharseList')->name('covercharse');
         });
 
 

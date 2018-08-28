@@ -30,9 +30,14 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Modules\System\Models\BuyerBillFile whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Modules\System\Models\BuyerBillFile whereUserId($value)
  * @mixin \Eloquent
+ * @property-read \App\Modules\System\Models\BuyerBill $bill
  */
 class BuyerBillFile extends Eloquent
 {
+    const STATUS_NOT_CHECK = 0;
+    const STATUS_SUCCESS = 1;
+    const STATUS_FAIL_CHECK = 2;
+
 	protected $table = 'buyer_bill_file';
 	protected $primaryKey = 'id';
 
@@ -50,13 +55,17 @@ class BuyerBillFile extends Eloquent
 		'status'
 	];
 
+	public function bill()
+    {
+        return $this->hasOne(BuyerBill::class,'bill_id','id');
+    }
+
     static function statusCN($st)
     {
         $status = array(
-            self::STATUS_NOT_PAY => '未还款',
-            self::STATUS_PAY => '已还款',
-            self::STATUS_OVER_NOT_PAY => '逾期未还',
-            self::STATUS_OVER_PAY => '逾期已还'
+            self::STATUS_NOT_CHECK => '未审核',
+            self::STATUS_SUCCESS => '已通过',
+            self::STATUS_FAIL_CHECK => '已拒绝',
         );
 
         return $status[$st];

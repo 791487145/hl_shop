@@ -29,6 +29,8 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Modules\System\Models\BuyerOrderDetail whereOrderNo($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Modules\System\Models\BuyerOrderDetail whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property string|null $commit 备注
+ * @method static \Illuminate\Database\Eloquent\Builder|\App\Modules\System\Models\BuyerOrderDetail whereCommit($value)
  */
 class BuyerOrderDetail extends Eloquent
 {
