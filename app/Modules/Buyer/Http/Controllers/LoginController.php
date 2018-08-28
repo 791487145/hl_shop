@@ -2,6 +2,7 @@
 namespace App\Modules\Buyer\Http\Controllers;
 
 use App\Http\Controllers\ApiController;
+use App\Modules\Buyer\Models\Buyer;
 use App\Modules\Shopeeker\Models\Shopeeker;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -21,8 +22,8 @@ class LoginController extends ApiController
             if($role->id != $this->buyer){
                 return $this->formatResponse('暂无权限登录',$this->errorStatus);
             }
-            $shopeeker = $user->shopeeker()->first();
-            if($shopeeker->status == Shopeeker::STATUS_FORBBIN){
+            $buyer = $user->buyer()->first();
+            if($buyer->status == Buyer::STATUS_FORBBIN){
                 return $this->formatResponse('该账号已禁止登录，请联系管理员',$this->errorStatus);
             }
 
@@ -46,11 +47,5 @@ class LoginController extends ApiController
         return $this->formatResponse('验证成功');
     }
 
-    public function register(Request $request)
-    {
-
-
-        return $this->formatResponse('注册成功');
-    }
 
 }

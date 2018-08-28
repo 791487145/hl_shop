@@ -43,12 +43,13 @@ Route::prefix('system')->group(function () {
         //用户管理
         Route::namespace('Client')->group(function () {
 
+            //供应商
             Route::post('shopeeker', 'ShopController@shopeekerList')->name('shopeeker');
             Route::post('shopeeker/info', 'ShopController@shopeekerInfo')->name('shopeekerInfo');
             Route::post('shopeeker/passwordReset', 'ShopController@passwordReset')->name('shopPasswordReset');
             Route::post('shopeeker/statusChange', 'ShopController@statusChange')->name('statusChange');
 
-
+            //采购
             Route::post('buyer', 'BuyerController@buyerList')->name('buyer');
             Route::post('buyer/create', 'BuyerController@buyerCreate')->name('buyerCreate');
             Route::post('buyer/info', 'BuyerController@buyerInfo')->name('buyerInfo');

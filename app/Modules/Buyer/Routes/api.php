@@ -20,21 +20,13 @@ Route::prefix('buyer')->group(function () {
 
         //权限管理
         Route::namespace('Center')->group(function () {
-            Route::post('user', 'ManageController@userList')->name('user');
-            Route::post('user/create', 'ManageController@userCreate')->name('userCreate');
-            Route::post('user/delete', 'ManageController@userDelete')->name('userDelete');
-            Route::post('user/info', 'ManageController@userInfo')->name('userInfo');
-            Route::post('user/passwordReset', 'ManageController@passwordReset')->name('passwordReset');
+            Route::post('center', 'CenterController@center');
 
-            Route::post('role', 'RoleController@roleList')->name('role')->middleware('can:role');
-            Route::post('role/create', 'RoleController@roleCreate')->name('roleCreate');
-            Route::post('role/update', 'RoleController@roleUpdate');
-            Route::post('role/info', 'RoleController@roleInfo')->name('roleInfo');
-            Route::delete('role/delete', 'RoleController@roleDelete')->name('roleDelete');
-            Route::post('role/assignPermission', 'RoleController@assignPermission')->name('assignPermission');
-            Route::post('role/permissionList', 'RoleController@permissionList')->name('permissionList');
+            Route::post('center/myBillList', 'BillController@myBillList');
+            Route::post('center/billInfo', 'BillController@billInfo');
+            Route::post('center/billfileSubmit', 'BillController@billfileSubmit');
 
-            Route::post('permission/create', 'PermissionController@permissionCreate');
+            Route::post('center/covercharseList', 'CovercharseController@covercharseList');
         });
 
     });

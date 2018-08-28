@@ -145,9 +145,15 @@ class OrderController extends SystemController
         return $this->formatResponse('提交成功',$this->successStatus);
     }
 
+    /**
+     * 服务费列表
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     */
     public function covercharseList(Request $request)
     {
-
+        $cover_charse = BuyerBill::whereStatus(BuyerBill::STATUS_PAY)->forPage($request->post('page',1),$request->post('limit',$this->limit))->get();
+        return $this->formatResponse('获取成功',$this->successStatus,$cover_charse);
     }
 
 

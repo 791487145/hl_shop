@@ -17,7 +17,11 @@ use DB;
 
 class BuyerController extends SystemController
 {
-
+    /**
+     *
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     */
     public function buyerList(Request $request)
     {
         $role = Auth::user()->roles->first();

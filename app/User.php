@@ -3,6 +3,7 @@
 namespace App;
 
 use App\Models\OauthAccessToken;
+use App\Modules\Buyer\Models\Buyer;
 use App\Modules\Shopeeker\Models\Shopeeker;
 use App\Modules\System\Models\Role;
 use Illuminate\Notifications\Notifiable;
@@ -93,8 +94,15 @@ class User extends Authenticatable
         }
     }
 
+    //供应商
     public function shopeeker()
     {
         return $this->hasOne(Shopeeker::class,'user_id','id');
+    }
+
+    //采购
+    public function buyer()
+    {
+        return $this->hasOne(Buyer::class,'user_id','id');
     }
 }

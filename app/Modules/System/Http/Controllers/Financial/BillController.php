@@ -67,17 +67,15 @@ class BillController extends SystemController
         return $this->formatResponse('操作成功',$this->successStatus);
     }
 
+    /**
+     * 服务费列表
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     */
     public function covercharseList(Request $request)
     {
-        $buyer_orders = BuyerOrder::where('status','>=',BuyerOrder::ORDER_EFFECT)->forPage($request->post('page',1),$request->post('limit',$this->limit))
-            ->select('order_no','order_total','cover_charse','has_payment','amortize_now','amortize_time','status')
-            ->get();
-        foreach ($buyer_orders as $buyer_order){
-            $buyer_order->statusCN = BuyerOrder::statusCN($buyer_order->status);
-        }
-
-        return $this->formatResponse('获取成功',$this->successStatus,$buyer_orders);
-
+        $cover_charse = BuyerBill::whereStatus(BuyerBill::STATUS_PAY)->forPage($request->post('page',1),$request->post('limit',$this->limit))->get();
+        return $this->formatResponse('获取成功',$this->successStatus,$cover_charse);
     }
 
 

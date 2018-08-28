@@ -67,6 +67,7 @@ class Buyer extends Eloquent
 {
     const STATUS_NORMAL = 1;
     const STATUS_DISABLE = 0;
+    const STATUS_FORBBIN = 2;
 
 	protected $table = 'buyer';
 	protected $primaryKey = 'id';
