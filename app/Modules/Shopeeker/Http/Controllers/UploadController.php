@@ -2,6 +2,7 @@
 namespace App\Modules\Shopeeker\Http\Controllers;
 
 use App\Http\Controllers\ApiController;
+use App\Modules\Buyer\Models\ConfCity;
 use App\Modules\System\Models\AuthMenu;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -11,6 +12,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Validator;
 use Log;
+use Cache;
 
 class UploadController extends ApiController
 {
@@ -35,6 +37,27 @@ class UploadController extends ApiController
         $a = 'shopeeker\/H60nFctIrbzaFtecGqNp3viMc5aYieRS0KlLQ7L5.xls';
 
         return Storage::download($a,'demo');
+    }
+
+    public function city(Request $request)
+    {
+        if(Cache::has('city')){
+            $param = Cache::get('city');
+        }else{
+            $citys = ConfCity::select('id','name','parent_id')->get();
+            $param = array();
+            foreach ($citys as $city){
+                $pa = array(
+                    'name' => $city->name,
+                    'value' => $city->id,
+                    'parent' => $city->parent_id
+                );
+                $param[] = $pa;
+            }
+            Cache::put('city',$param);
+        };
+
+        return $this->formatResponse('获取成功',$this->successStatus,$param);
     }
 
 }

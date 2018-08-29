@@ -37,6 +37,7 @@ use Illuminate\Support\Collection;
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Models\OauthAccessToken[] $oauth_access_token
  * @property-read \Illuminate\Database\Eloquent\Collection|\App\Modules\System\Models\Role[] $roles
  * @property-read \App\Modules\Shopeeker\Models\Shopeeker $shopeeker
+ * @property-read \App\Modules\Buyer\Models\Buyer $buyer
  */
 class User extends Authenticatable
 {

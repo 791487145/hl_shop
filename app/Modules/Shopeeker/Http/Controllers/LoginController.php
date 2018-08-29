@@ -78,6 +78,7 @@ class LoginController extends ApiController
             $shopeeker->sccial_agency_code = $request->post('sccial_agency_code');
             $shopeeker->status = $shopeeker::STATUS_FAIL;
             $shopeeker->user_id = $user->id;
+            $shopeeker->save();
         });
 
         return $this->formatResponse('注册成功');

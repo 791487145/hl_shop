@@ -16,6 +16,7 @@ use Illuminate\Http\Request;
 Route::prefix('shopeeker')->group(function () {
 
     Route::post('login', 'LoginController@login');
+    Route::post('city', 'UploadController@city');
     Route::post('register', 'LoginController@register');
     Route::post('mobile', 'LoginController@checkMobile');
     Route::post('upload', 'UploadController@upload');
