@@ -18,7 +18,7 @@ use DB;
 class BuyerController extends SystemController
 {
     /**
-     *
+     *采购列表
      * @param Request $request
      * @return \Illuminate\Http\Response
      */
@@ -26,11 +26,12 @@ class BuyerController extends SystemController
     {
         $role = Auth::user()->roles->first();
         if($role->id == $this->buyer){
-            $buyer = Buyer::whereUsersId(Auth::id())->select('id','account_num','use_account','debt_account_num','mobile','agency_name','ssl_num_status','status')->get();
+            $buyer = Buyer::whereUsersId(Auth::id())->select('id','account_num','use_account','debt_account_num','buyer_mobile','agency_name','ssl_num_status','status')->get();
         }else{
             $status = $request->post('status',1);
             $buyer = new Buyer();
-            $buyer = $buyer->whereStatus($status)->select('id','account_num','use_account','debt_account_num','mobile','agency_name','ssl_num_status','status')->orderBy('id','desc')->get();
+            $buyer = $buyer->whereStatus($status)->select('id','account_num','use_account','debt_account_num','buyer_mobile','agency_name','ssl_num_status','status')->orderBy('id','desc')
+                            ->forPage($request->post('page',1),$request->post('limit',$this->limit))->get();
         }
 
         foreach ($buyer as &$value){
@@ -40,6 +41,12 @@ class BuyerController extends SystemController
         return $this->formatResponse('获取成功',$this->successStatus,$buyer);
     }
 
+    /**
+     * 采购创建
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     * @throws \Throwable
+     */
     public function buyerCreate(Request $request)
     {
         $user = User::whereMobile($request->post('mobile'))->first();
@@ -75,37 +82,48 @@ class BuyerController extends SystemController
         return $this->formatResponse('创建成功');
     }
 
+    /**
+     * 采购详情
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     */
     public function buyerInfo(Request $request)
     {
         $buyer = Buyer::whereId($request->post('buyer_id'))->first();
-        $user = $buyer->user;
+        $buyer->user;
         $buyer = Buyer::buyer($buyer);
-        $buyer->username = $user->name;
-        $buyer->login_name = $user->mobile;
+
         return $this->formatResponse('获取成功',$this->successStatus,$buyer);
     }
 
+    /**
+     * 采购更改
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     */
     public function buyerUpdate(Request $request)
     {
         $buyer = Buyer::whereId($request->post('buyer_id'))->first();
-        $user = $buyer->user;
+       // $user = $buyer->user;
         $buyer->account_num = $request->post('account_num',0.00);
-        $buyer->mobile = $request->post('mobile');
+      /*  $buyer->buyer_mobile = $request->post('buyer_mobile');
         $buyer->agency_name = $request->post('agency_name');
         $buyer->agency_id_card = $request->post('agency_id_card');
         $buyer->id_card_front = $request->post('id_card_front');
         $buyer->id_card_receive_side = $request->post('id_card_receive_side');
         $buyer->brought_account = $request->post('brought_account');
         $buyer->brought_bank = $request->post('brought_bank','光大银行');
-        $buyer->brought_other_bank = $request->post('brought_other_bank');
+        $buyer->brought_other_bank = $request->post('brought_other_bank');*/
         $buyer->save();
 
-        $user->name = $request->post('username');
-        $user->login_name = $request->post('login_name');
-        $user->save();
         return $this->formatResponse('修改成功',$this->successStatus);
     }
 
+    /**
+     * 密码重置
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     */
     public function buyerPasswordReset(Request $request)
     {
         $password = $request->post('password','');
@@ -113,10 +131,15 @@ class BuyerController extends SystemController
         if(empty($password)){
             return $this->formatResponse('密码不能为空',$this->errorStatus);
         }
-        $user->update(['password' => $password]);
+        $user->update(['password' => bcrypt($password)]);
         return $this->formatResponse('修改成功',$this->successStatus);
     }
 
+    /**
+     * 状态更改
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     */
     public function buyerStatusChange(Request $request)
     {
         $user_id = Auth::id();
