@@ -11,16 +11,20 @@ use Illuminate\Routing\Route;
 use Illuminate\Support\Facades\Auth;
 use Validator;
 use Log;
+use Illuminate\Auth\EloquentUserProvider;
+use Hash;
 
 class CenterController extends ShopeekerController
 {
     public function passwordReset(Request $request)
     {
         $user = Auth::user();
-        if($user->password != bcrypt($request->post('old_password'))){
-            return $this->formatResponse('原密码不正确');
-        }
-        $user->update(['password' => $request->post('new_password')]);
+
+        if(!Hash::check($request->post('old_password'), $user->password)){
+            return $this->formatResponse('原始密码不正确，请重新输入');
+        };
+
+        $user->update(['password' => bcrypt($request->post('new_password'))]);
         return $this->formatResponse('修改成功');
     }
 

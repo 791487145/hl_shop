@@ -27,6 +27,7 @@ Route::prefix('shopeeker')->group(function () {
 
         Route::namespace('Center')->group(function () {
             Route::post('center/passwordReset', 'CenterController@passwordReset');
+
             Route::post('center/contractList', 'CenterController@contractList');
         });
 
