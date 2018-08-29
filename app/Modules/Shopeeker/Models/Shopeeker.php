@@ -108,9 +108,9 @@ class Shopeeker extends Eloquent
 
     static function shopeeker($shopeeker)
     {
-        $province = ConfCity::whereId($shopeeker->province)->pluck('name');
-        $city = ConfCity::whereId($shopeeker->city)->pluck('name');
-        $area = ConfCity::whereId($shopeeker->area)->pluck('name');
+        $province = ConfCity::whereId($shopeeker->province)->value('name');
+        $city = ConfCity::whereId($shopeeker->city)->value('name');
+        $area = ConfCity::whereId($shopeeker->area)->value('name');
         $shopeeker->statusCN = self::statusCN($shopeeker->status);
         $shopeeker->ssl_num_status_CN = self::ssl_status_CN($shopeeker->ssl_num_status);
         $shopeeker->district = $province.$city.$area;

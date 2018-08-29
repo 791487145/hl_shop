@@ -26,15 +26,15 @@ class BuyerController extends SystemController
     {
         $role = Auth::user()->roles->first();
         if($role->id == $this->buyer){
-            $buyer = Buyer::whereUsersId(Auth::id())->select('id','account_num','use_account','debt_account_num','mobile','agency_name','ssl_num_status','status')->first();
-            $buyer = Buyer::buyer($buyer);
+            $buyer = Buyer::whereUsersId(Auth::id())->select('id','account_num','use_account','debt_account_num','mobile','agency_name','ssl_num_status','status')->get();
         }else{
             $status = $request->post('status',1);
             $buyer = new Buyer();
             $buyer = $buyer->whereStatus($status)->select('id','account_num','use_account','debt_account_num','mobile','agency_name','ssl_num_status','status')->orderBy('id','desc')->get();
-            foreach ($buyer as &$value){
-                $value = Buyer::buyer($value);
-            }
+        }
+
+        foreach ($buyer as &$value){
+            $value = Buyer::buyer($value);
         }
 
         return $this->formatResponse('获取成功',$this->successStatus,$buyer);
@@ -60,7 +60,7 @@ class BuyerController extends SystemController
             $buyer = new Buyer();
             $buyer->users_id = $user->id;
             $buyer->account_num = $request->post('account_num',0.00);
-            $buyer->mobile = $request->post('mobile');
+            $buyer->buyer_mobile = $request->post('buyer_mobile');
             $buyer->agency_name = $request->post('agency_name');
             $buyer->agency_id_card = $request->post('agency_id_card');
             $buyer->id_card_front = $request->post('id_card_front');

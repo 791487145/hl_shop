@@ -1,37 +1,44 @@
 <?php
 namespace App\Modules\System\Http\Controllers\Client;
 
-use App\Http\Controllers\ApiController;
 use App\Modules\Shopeeker\Models\Shopeeker;
 use App\Modules\System\Http\Controllers\SystemController;
-use App\Modules\System\Models\AuthMenu;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use App\User;
-use Illuminate\Routing\Route;
 use Illuminate\Support\Facades\Auth;
 use Validator;
 use Log;
+use Hash;
 
 class ShopController extends SystemController
 {
-
+    /**
+     * 供应商列表
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     */
     public function shopeekerList(Request $request)
     {
         $role = Auth::user()->roles->first();
         if($role->id == $this->shopeeker){
-            $shopeeker = Shopeeker::whereUserId(Auth::id())->select('id','company_name','agency_name','agency_mobile','status','ssl_num_status','province','city','area')->first();
-            $shopeeker = Shopeeker::shopeeker($shopeeker);
+            $shopeeker = Shopeeker::whereUserId(Auth::id())->select('id','company_name','agency_name','agency_mobile','status','ssl_num_status','province','city','area')->get();
         }else{
-            $shopeeker = Shopeeker::orderBy('id','desc')->select('id','company_name','agency_name','agency_mobile','status','ssl_num_status','province','city','area')->paginate(10);
-            foreach ($shopeeker as &$value){
-                $value = Shopeeker::shopeeker($value);
-            }
+            $shopeeker = Shopeeker::orderBy('id','desc')->select('id','company_name','agency_name','agency_mobile','status','ssl_num_status','province','city','area')
+                ->forPage($request->post('page',1),$request->post('limit',$this->limit))->orderBy('id','desc')->get();
+        }
+
+        foreach ($shopeeker as &$value){
+            $value = Shopeeker::shopeeker($value);
         }
 
         return $this->formatResponse('获取成功',$this->successStatus,$shopeeker);
     }
 
+    /**
+     * 供应商详情
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     */
     public function shopeekerInfo(Request $request)
     {
         $shopeeker = Shopeeker::whereId($request->post('shopeeker_id'))->first();
@@ -40,21 +47,28 @@ class ShopController extends SystemController
         return $this->formatResponse('获取成功',$this->successStatus,$shopeeker);
     }
 
+    /**
+     * 密码重置
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     */
     public function passwordReset(Request $request)
     {
-        $user = Auth::user();
-
-        if($user->password != bcrypt($request->post('old_password'))){
-            return $this->formatResponse('原密码不正确');
-        }
-        $user->update(['password' => $request->post('new_password')]);
+        $shopeeker = Shopeeker::whereId($request->post('shopeeker_id'))->first();
+        $user = $shopeeker->user();
+        $user->update(['password' => bcrypt($request->post('new_password'))]);
         return $this->formatResponse('修改成功');
     }
 
+    /**
+     * 更改状态
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     */
     public function statusChange(Request $request)
     {
         $user_id = Auth::id();
-        $u_id = Shopeeker::whereId($request->post('shopeeker_id'))->pluck('user_id');
+        $u_id = Shopeeker::whereId($request->post('shopeeker_id'))->value('user_id');
         if($user_id == $u_id){
             return $this->formatResponse('自己不能对自己操作哦');
         }
