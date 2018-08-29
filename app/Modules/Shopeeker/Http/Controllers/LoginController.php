@@ -40,7 +40,7 @@ class LoginController extends ApiController
         $mobile = $request->post('mobile');
         $user = $user->whereMobile($mobile)->first();
         if(!is_null($user)){
-            return $this->formatResponse('该手机号已注册');
+            return $this->formatResponse('该手机号已注册',$this->errorStatus);
         }
 
         return $this->formatResponse('验证成功');

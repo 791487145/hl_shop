@@ -27,7 +27,7 @@ class UploadController extends ApiController
     {
         $file = $request->post('file');
         $ret = Storage::delete($file);
-        //dd($ret);
+        return $this->formatResponse('删除成功',$this->successStatus);
     }
 
     public function download(Request $request)
