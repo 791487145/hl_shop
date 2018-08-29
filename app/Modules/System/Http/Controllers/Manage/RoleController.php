@@ -17,12 +17,23 @@ use Log;
 
 class RoleController extends SystemController
 {
+    /**
+     * 角色列表
+     * @param Request $request
+     * @param Role $role
+     * @return \Illuminate\Http\Response
+     */
     public function roleList(Request $request,Role $role)
     {
         $roles = Role::orderBy('order', 'desc')->get();
         return $this->formatResponse('获取成功',$this->successStatus,$roles);
     }
 
+    /**
+     * 角色创建
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     */
     public function roleCreate(Request $request)
     {
         $data = $request->all();
@@ -49,6 +60,11 @@ class RoleController extends SystemController
         return $this->formatResponse('添加成功');
     }
 
+    /**
+     * 角色详情
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     */
     public function roleInfo(Request $request)
     {
         $data = $request->all();
@@ -67,6 +83,11 @@ class RoleController extends SystemController
         return $this->formatResponse('获取成功',$this->successStatus,$role);
     }
 
+    /**
+     * 角色修改
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     */
     public function roleUpdate(Request $request)
     {
         $data = $request->all();
@@ -95,6 +116,11 @@ class RoleController extends SystemController
         return $this->formatResponse('修改成功',$this->successStatus);
     }
 
+    /**
+     * 角色删除
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     */
     public function roleDelete(Request $request)
     {
         $role = Role::whereId($request->post('role_id'))->first();
@@ -111,6 +137,11 @@ class RoleController extends SystemController
         return $this->formatResponse('删除成功');
     }
 
+    /**
+     * 授权
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     */
     public function assignPermission(Request $request)
     {
         $data = $request->all();
@@ -134,17 +165,25 @@ class RoleController extends SystemController
         return $this->formatResponse('添加成功');
     }
 
+    /**
+     * 权限列表
+     * @param Request $request
+     * @return \Illuminate\Http\Response
+     */
     public function permissionList(Request $request)
     {
         $permissions = AuthMenu::select('id','title','parent_id')->get()->toArray();
         $role = Role::whereId($request->post('role_id'))->first();
+        if(empty($role)){
+            return $this->formatResponse('role_id参数错误',$this->errorStatus);
+        }
+
         $permissions_id = $role->permissions()->pluck('auth_menu.id');
         $permissions = \Common::listToTree($permissions,'id','parent_id');
 
         $data = array(
             'permissions' => $permissions,
             'permissions_id' => $permissions_id,
-            'permissions' => $permissions
         );
         return $this->formatResponse('获取成功',$this->successStatus,$data);
     }
