@@ -67,6 +67,7 @@ class BuyerController extends SystemController
             $buyer = new Buyer();
             $buyer->users_id = $user->id;
             $buyer->account_num = $request->post('account_num',0.00);
+            $buyer->use_account = $buyer->account_num;
             $buyer->buyer_mobile = $request->post('buyer_mobile');
             $buyer->agency_name = $request->post('agency_name');
             $buyer->agency_id_card = $request->post('agency_id_card');
@@ -143,7 +144,7 @@ class BuyerController extends SystemController
     public function buyerStatusChange(Request $request)
     {
         $user_id = Auth::id();
-        $u_id = Buyer::whereId($request->post('buyer_id'))->pluck('user_id');
+        $u_id = Buyer::whereId($request->post('buyer_id'))->value('users_id');
         if($user_id == $u_id){
             return $this->formatResponse('自己不能对自己操作哦');
         }

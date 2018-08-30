@@ -1,6 +1,7 @@
 <?php
 namespace App\Modules\System\Http\Controllers\Client;
 
+use App\Modules\Buyer\Models\Buyer;
 use App\Modules\System\Models\BuyerBill;
 use App\Modules\System\Models\BuyerBillFile;
 use App\Modules\System\Models\BuyerOrder;
@@ -30,15 +31,27 @@ class OrderController extends SystemController
         $time = Carbon::today();
         $length_days = $time->diffInDays($time->copy()->addMonth($request->post('amortize_time')));
 
+        $buyer = Buyer::whereUsersId(Auth::id())->first();
+        if(is_null($buyer)){
+            return $this->formatResponse('当前用户不存在，不能操作',$this->errorStatus);
+        }
+        if($buyer->use_account < $request->post('order_account',0.00)){
+            return $this->formatResponse('赊账金额大于可用金额，请重新选择',$this->errorStatus);
+        }
+
+        $order_account = $request->post('order_account',0.00);
+        $over_cover_charse = $request->post('over_cover_charse',0.00);
+
         $order = new BuyerOrder();
         $order->buyer_id = Auth::id();
         $order->amortize_time = $request->post('amortize_time');
-        $order->status = $order::ORDER_NOT_EFFECT;
-        $order->order_account = $request->post('order_account',0.00);
-        $order->cover_charse = bcmul($order->order_account,($length_days * $this->interest_rate),2);
-        $order->over_cover_charse = $request->post('over_cover_charse',0.00);
-        $order->order_total = bcadd(bcadd($order->order_account,$order->cover_charse,2),$order->over_cover_charse,2);
+        $order->status = BuyerOrder::ORDER_NOT_EFFECT;
+        $order->order_account = $order_account;
+        $order->cover_charse = bcmul($order_account,($length_days * $this->interest_rate),2);
+        $order->over_cover_charse = $over_cover_charse;
+        $order->order_total = bcadd(bcadd($order_account,$order->cover_charse,2),$over_cover_charse,2);
         $order->save();
+
         $order->order_no = date("ymdHis") . sprintf("%03d", substr($order->id, -3));
         $order->save();
 

@@ -65,10 +65,9 @@ class BuyerOrder extends Eloquent
 
 	protected $table = 'buyer_order';
 	protected $primaryKey = 'id';
-	public $incrementing = false;
+	public $incrementing = true;
 
 	protected $casts = [
-		'id' => 'int',
 		'buyer_id' => 'int',
 		'goods_price' => 'float',
 		'order_account' => 'float',

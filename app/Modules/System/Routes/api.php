@@ -85,8 +85,8 @@ Route::prefix('system')->group(function () {
         });
 
 
-        Route::post('excel/export','ExcelController@export');
-        Route::post('excel/import','ExcelController@import');
+        //Route::post('excel/export','ExcelController@export');
+        Route::post('excel/import','ExcelController@import')->name('import');
 
     });
 

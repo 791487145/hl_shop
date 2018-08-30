@@ -14,7 +14,7 @@ use Storage;
 class ExcelController extends ApiController
 {
 
-    public function export(){
+   /* public function export(){
         $cellData = [
             ['商品名称','数量','单价','总价'],
             ['太原-大连火车票','20','101.21','2024.2'],
@@ -29,22 +29,20 @@ class ExcelController extends ApiController
                 $sheet->rows($cellData);
             });
         })->export('xls');
-    }
+    }*/
 
-
+    /**
+     * 上传excel
+     * @param Request $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function import(Request $request)
     {
         if($request->file('file')){
             $file_path = Storage::putFile('excel',$request->file('file'));
-            Excel::selectSheets('Sheet1')->load($file_path, function($reader) {
-
-                $data = $reader->all();
-                dd($data);
-            });
         }
 
-
-
+        return response()->json(['excel'=>$file_path]);
     }
 
 }
