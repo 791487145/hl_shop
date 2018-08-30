@@ -43,7 +43,7 @@ class OrderController extends SystemController
         $over_cover_charse = $request->post('over_cover_charse',0.00);
 
         $order = new BuyerOrder();
-        $order->buyer_id = Auth::id();
+        $order->buyer_id = $buyer->id;
         $order->amortize_time = $request->post('amortize_time');
         $order->status = BuyerOrder::ORDER_NOT_EFFECT;
         $order->order_account = $order_account;
@@ -74,10 +74,10 @@ class OrderController extends SystemController
 
             DB::transaction(function () use($request,$reader){
                 $order = BuyerOrder::whereOrderNo($request->post('order_no'))->first();
-                $order->goods_file = $request->post('goods_file');
-                $order->save();
 
-                $data = $reader->all();
+                $data = $reader->noHeading()->all();
+                $goods_price = 0;
+                unset($data[0]);
                 foreach ($data as $value){
                     $order_detail = new BuyerOrderDetail();
                     $order_detail->order_no = $order->order_no;
@@ -86,11 +86,32 @@ class OrderController extends SystemController
                     $order_detail->goods_price = $value[2];
                     $order_detail->goods_total = $value[3];
                     $order_detail->save();
+                    $goods_price = bcadd($goods_price,$value[3],2);
                 }
+
+                $order->goods_file = $request->post('goods_file');
+                $order->goods_price = $goods_price;
+                $order->save();
             });
         });
 
         return $this->formatResponse('订单提交成功，请等待审核',$this->successStatus);
+    }
+
+    /**
+     * 我的订单
+     * @param Request $request
+     */
+    public function myOrderList(Request $request)
+    {
+        $buyer = Auth::user()->buyer;
+        $buyer_orders = BuyerOrder::whereBuyerId($buyer->id)->forPage($request->post('page',1),$request->post('limit',$this->limit))->orderBy('id','desc')
+                                    ->select('id','order_no','buyer_id','order_account','goods_price','order_total','amortize_time','cover_charse','contract','status')
+                                    ->get();
+        foreach ($buyer_orders as $buyer_order){
+            $buyer_order->statusCN = BuyerOrder::statusCN($buyer_order->status);
+        }
+        return $this->formatResponse('获取成功',$this->successStatus,$buyer_orders);
     }
 
     /**

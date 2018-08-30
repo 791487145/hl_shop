@@ -103,7 +103,7 @@ class BuyerOrder extends Eloquent
 	//属于哪个导购
 	public function buyer()
     {
-        return $this->belongsTo(Buyer::class,'id','buyer_id');
+        return $this->hasOne(Buyer::class,'id','buyer_id');
     }
 
     //订单详情
@@ -114,7 +114,12 @@ class BuyerOrder extends Eloquent
 
     //订单的所有账单
     public function order_bills(){
-        return $this->belongsToMany(BuyerBill::class,'buyer_order_bill','order_no','order_sn')->withPivot('order_sn','order_no');
+        return $this->belongsToMany(BuyerBill::class,'buyer_order_bill','order_no','order_sn')->withPivot('order_no','order_sn');
+    }
+
+    public function order_bill_med()
+    {
+        return $this->hasMany(BuyerOrderBill::class,'order_no','order_no');
     }
 
     //订单生成账单

@@ -34,9 +34,9 @@ class UploadController extends ApiController
 
     public function download(Request $request)
     {
-        $a = 'shopeeker\/H60nFctIrbzaFtecGqNp3viMc5aYieRS0KlLQ7L5.xls';
+        $file_path = $request->get('file_path');
 
-        return Storage::download($a,'demo');
+        return Storage::download($file_path,'demo.xls');
     }
 
     public function city(Request $request)

@@ -1,6 +1,7 @@
 <?php
 namespace App\Modules\System\Http\Controllers\Financial;
 
+use App\Modules\Buyer\Models\Buyer;
 use App\Modules\System\Models\BuyerBill;
 use App\Modules\System\Models\BuyerBillFile;
 use App\Modules\System\Models\BuyerOrder;
@@ -47,7 +48,7 @@ class OrderController extends SystemController
             ->forPage($request->post('page',1),$request->post('limit',$this->limit))->get();
 
         foreach ($buyer_order_applys as $buyer_order_apply){
-            $user = $buyer_order_apply->buyer()->user;
+            $user = $buyer_order_apply->buyer()->first()->user()->first();
             $buyer_order_apply->buyer_name = $user->name;
             $buyer_order_apply->status_name = BuyerOrder::statusCN($buyer_order_apply->status);
         }
@@ -63,9 +64,18 @@ class OrderController extends SystemController
     public function orderApplyInfo(Request $request)
     {
         $order = BuyerOrder::whereId($request->post('order_id'))->select('id','order_no','buyer_id','order_account','goods_price','order_total','amortize_time','cover_charse','contract','status')->first();
+
         $order->goods = $order->order_detail()->get();
+        $order->status_name = BuyerOrder::statusCN($order->status);
         if($order->status >= BuyerOrder::ORDER_EFFECT){
-            $order->bills = $order->order_bills()->get();
+
+            $meds = $order->order_bill_med()->get();
+            $param =array();
+            foreach ($meds as $med){
+                $param[] = $med->bills()->first();
+            }
+            $order->bills = $param;
+
             foreach ($order->bills as $val){
                 $val->statusCN = BuyerBill::statusCN($val->status);
             }
@@ -89,9 +99,16 @@ class OrderController extends SystemController
         }
 
         $order = BuyerOrder::whereId($order_id)->first();
-        $user = $order->buyer()->user();
+        $buyer = $order->buyer()->first();
+
+        if($buyer->use_account < $order->order_account){
+            return $this->formatResponse('操作失败，赊账金额超过总额度',$this->errorStatus);
+        }
+
+        $user = $buyer->user()->first();
+
         if($status == BuyerOrder::ORDER_EFFECT){//生效
-            DB::transaction(function () use($request,$order){
+            DB::transaction(function () use($request,$order,$buyer){
 
                 $param = array(
                     'status' => BuyerOrder::ORDER_EFFECT,
@@ -115,10 +132,14 @@ class OrderController extends SystemController
                 $bill->buyer_id = $order->buyer_id;
                 $bill->save();
 
-                $bill->order_sn = bcadd($bill->order_sn + $bill->id);
+                $bill->order_sn = bcadd($bill->order_sn,$bill->id);
                 $bill->save();
 
-                $order->assigeOrderBill(array($bill->id));
+                $param2 =array(
+                    'order_no' => $order->order_no,
+                    'order_sn' => $bill->order_sn
+                );
+                BuyerOrderBill::insert($param2);
 
                 $cover_charse = new CoverCharse();
                 $cover_charse->service_num = $bill->cover_charse;
@@ -126,10 +147,15 @@ class OrderController extends SystemController
                 $cover_charse->save();
 
                 $bill->assignCovercharse(array($cover_charse->id));
+
+                $param1 = array(
+                    'use_account' => bcsub($buyer->account_num,$order->order_account,2),
+                    'debt_account_num' => $order->order_account,
+                    'refund_account_num' => bcadd($order->order_account,$order->cover_charse,2)
+                );
+                Buyer::whereId($buyer->id)->update($param1);
             });
         }
-
-
 
         if($status == BuyerOrder::ORDER_REFUSE){//被拒
             $message = new Message();
@@ -139,6 +165,8 @@ class OrderController extends SystemController
             $message->content = '您的订单被拒绝，请重新下单';
             $message->ide = $message::IDE_ORDER;
             $message->save();
+
+            BuyerOrder::whereId($order_id)->update(['status' => BuyerOrder::ORDER_REFUSE]);
         }
 
         return $this->formatResponse('操作成功',$this->successStatus);
@@ -169,11 +197,11 @@ class OrderController extends SystemController
         }
 
         $buyer_orders = $buyer_orders->orderBy('id','desc')->forPage($request->post('page',1),$request->post('limit',$this->limit))
-            ->select('id','order_no','buyer_id','order_account','goods_price','order_total','amortize_time','cover_charse','contract','status')
+            ->select('id','order_no','buyer_id','order_account','goods_price','order_total','amortize_time','cover_charse','contract','status','created_at')
             ->get();
 
         foreach ($buyer_orders as $buyer_order){
-            $user = $buyer_order->buyer()->user;
+            $user = $buyer_order->buyer()->first()->user()->first();
             $buyer_order->buyer_name = $user->name;
             $buyer_order->status_name = BuyerOrder::statusCN($buyer_order->status);
         }
@@ -200,13 +228,13 @@ class OrderController extends SystemController
         }
 
         $bills = $bills->whereIn('status',[0,2])->orderBy('id','desc')->forPage($request->post('page',1),$request->post('limit',$this->limit))
-                        ->select('order_sn','amortize_time','month_account','refund_account','over_cover_charse','cover_charse','status','end_time')
+                        ->select('id','order_sn','amortize_time','month_account','refund_account','over_cover_charse','cover_charse','status','end_time')
                         ->get();
 
         foreach ($bills as $bill) {
             $bill->statusCN = BuyerBill::statusCN($bill->status);
-            $order = $bill->buyer_order()->first();
-            $user = $order->buyer()->user;
+            $order = $bill->order_bill_med()->first()->orders()->first();
+            $user = $order->buyer()->first()->user()->first();
             $bill->buyer_name = $user->name;
             $bill->order_no = $order->order_no;
             if($order->status >= BuyerOrder::ORDER_REFUND){

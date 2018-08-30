@@ -87,10 +87,15 @@ class BuyerBill extends Eloquent
         return $this->hasMany(BuyerBillFile::class,'bill_id','id');
     }
 
-    //订单列表
+    /*//订单列表
     public function buyer_order()
     {
         return $this->belongsToMany(BuyerOrder::class,'buyer_order_bill','order_sn','order_no');
+    }*/
+
+    public function order_bill_med()
+    {
+        return $this->hasOne(BuyerOrderBill::class,'order_sn','order_sn');
     }
 
     static function statusCN($st)

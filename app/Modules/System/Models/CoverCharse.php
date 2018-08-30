@@ -29,7 +29,7 @@ class CoverCharse extends Eloquent
 {
 	protected $table = 'cover_charse';
 	protected $primaryKey = 'id';
-	public $incrementing = false;
+	public $incrementing = true;
 
 	protected $casts = [
 		'id' => 'int',

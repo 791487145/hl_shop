@@ -11,11 +11,12 @@ use Reliese\Database\Eloquent\Model as Eloquent;
 
 
 /**
- * App\Modules\System\Models\BuyerOrderBill
+ * Class BuyerOrderBill
  *
  * @property int $id
- * @property int $order_no 订单编号
- * @property int $order_sn 账单编号
+ * @property string $order_no
+ * @property string $order_sn
+ * @package App\Models
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Modules\System\Models\BuyerOrderBill whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Modules\System\Models\BuyerOrderBill whereOrderNo($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Modules\System\Models\BuyerOrderBill whereOrderSn($value)
@@ -23,17 +24,22 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  */
 class BuyerOrderBill extends Eloquent
 {
-	protected $table = 'buyer_order_bill';
-	protected $primaryKey = 'id';
-	public $timestamps = false;
+    protected $table = 'buyer_order_bill';
+    protected $primaryKey = 'id';
+    public $timestamps = true;
 
-	protected $casts = [
-		'order_no' => 'int',
-		'order_sn' => 'int'
-	];
+    protected $fillable = [
+        'order_no',
+        'order_sn'
+    ];
 
-	protected $fillable = [
-		'order_no',
-		'order_sn'
-	];
+    public function bills()
+    {
+        return $this->hasOne(BuyerBill::class,'order_sn','order_sn');
+    }
+
+    public function orders()
+    {
+        return $this->belongsTo(BuyerOrder::class,'order_no','order_no');
+    }
 }

@@ -36,10 +36,9 @@ class BuyerOrderDetail extends Eloquent
 {
     protected $table = 'buyer_order_detail';
     protected $primaryKey = 'id';
-    public $incrementing = false;
+    public $incrementing = true;
 
     protected $casts = [
-        'id' => 'int',
         'goods_num' => 'int',
         'goods_price' => 'float',
         'goods_total' => 'float'

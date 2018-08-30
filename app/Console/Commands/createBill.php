@@ -64,7 +64,11 @@ class createBill extends Command
                     $bill->order_sn = bcadd($bill->order_sn + $bill->id);
                     $bill->save();
 
-                    $buyer_order->assigeOrderBill(array($bill->id));
+                    $param2 =array(
+                        'order_no' => $buyer_order->order_no,
+                        'order_sn' => $bill->order_sn
+                    );
+                    BuyerOrderBill::create($param2);
 
                     $cover_charse = new CoverCharse();
                     $cover_charse->service_num = $bill->cover_charse;
@@ -91,7 +95,11 @@ class createBill extends Command
                     $bill->order_sn = bcadd($bill->order_sn + $bill->id);
                     $bill->save();
 
-                    $buyer_order->assigeOrderBill(array($bill->id));
+                    $param2 =array(
+                        'order_no' => $buyer_order->order_no,
+                        'order_sn' => $bill->order_sn
+                    );
+                    BuyerOrderBill::create($param2);
 
                     $cover_charse = new CoverCharse();
                     $cover_charse->service_num = $bill->cover_charse;

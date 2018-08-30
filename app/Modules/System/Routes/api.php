@@ -59,6 +59,7 @@ Route::prefix('system')->group(function () {
 
             Route::post('buyer/contract/create', 'OrderController@contractCreate')->name('contractCreate');
             Route::post('buyer/order/submit', 'OrderController@orderSubmit')->name('orderSubmit');
+            Route::post('buyer/order/myOrderList', 'OrderController@myOrderList')->name('myOrderList');
             Route::post('buyer/bill/myBillList', 'OrderController@myBillList')->name('myBillList');
             Route::post('buyer/bill/fileSubmit', 'OrderController@billfileSubmit')->name('fileSubmit');
 
