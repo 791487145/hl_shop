@@ -54,6 +54,7 @@ use Reliese\Database\Eloquent\Model as Eloquent;
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Modules\System\Models\BuyerOrder whereStatus($value)
  * @method static \Illuminate\Database\Eloquent\Builder|\App\Modules\System\Models\BuyerOrder whereUpdatedAt($value)
  * @mixin \Eloquent
+ * @property-read \Illuminate\Database\Eloquent\Collection|\App\Modules\System\Models\BuyerOrderBill[] $order_bill_med
  */
 class BuyerOrder extends Eloquent
 {

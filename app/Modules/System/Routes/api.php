@@ -85,6 +85,17 @@ Route::prefix('system')->group(function () {
             Route::post('order/covercharse', 'BillController@covercharseList')->name('covercharse');
         });
 
+        //客服
+        Route::namespace('Note')->group(function () {
+
+            //申请订单
+            Route::post('note', 'NoteController@noteList')->name('note');
+            Route::post('note/info', 'NoteController@noteInfo')->name('noteInfo');
+            Route::post('note/replay', 'OrderController@noteReplay')->name('noteReplay');
+            Route::post('note/issue', 'OrderController@noteIssue')->name('noteIssue');
+
+        });
+
 
         //Route::post('excel/export','ExcelController@export');
         Route::post('excel/import','ExcelController@import')->name('import');
