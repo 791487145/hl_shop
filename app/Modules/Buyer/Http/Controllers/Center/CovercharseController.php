@@ -41,7 +41,7 @@ class CovercharseController extends BuyerController
 
 
         $buyer = Auth::user()->buyer()->first();
-       
+
         $data = array(
             'cover_charse' => $cover_charse,
             'user_account' => bcsub($buyer->account_num,$buyer->use_account,2),
