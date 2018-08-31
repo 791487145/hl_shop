@@ -35,7 +35,7 @@ class BuyerOrderBill extends Eloquent
 
     public function bills()
     {
-        return $this->hasOne(BuyerBill::class,'order_sn','order_sn');
+        return $this->hasMany(BuyerBill::class,'order_sn','order_sn');
     }
 
     public function orders()

@@ -113,9 +113,9 @@ class BuyerOrder extends Eloquent
     }
 
     //订单的所有账单
-    public function order_bills(){
+   /* public function order_bills(){
         return $this->belongsToMany(BuyerBill::class,'buyer_order_bill','order_no','order_sn')->withPivot('order_no','order_sn');
-    }
+    }*/
 
     public function order_bill_med()
     {
@@ -123,9 +123,9 @@ class BuyerOrder extends Eloquent
     }
 
     //订单生成账单
-    public function assigeOrderBill($bill){
+   /* public function assigeOrderBill($bill){
         return $this->order_bills()->sync($bill);
-    }
+    }*/
 
     static function statusCN($status)
     {

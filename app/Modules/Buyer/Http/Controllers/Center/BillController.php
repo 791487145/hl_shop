@@ -33,7 +33,7 @@ class BillController extends BuyerController
         $bills = $bills->whereBuyerId(Auth::id())->forPage($request->post('page',1),$request->post('limit',$this->limit))->orderBy('id','desc')->get();
         foreach ($bills as $bill){
             $bill->statusCN = BuyerBill::statusCN($bill->status);
-            $file = $bill->bill_file->latest()->first();
+            $file = $bill->bill_file()->latest()->first();
             if(!is_null($file)){
                 $bill->statusCN = BuyerBillFile::statusCN($file->status);
             }
@@ -50,10 +50,10 @@ class BillController extends BuyerController
     public function billInfo(Request $request)
     {
         $bill = BuyerBill::whereId($request->post('bill_id'))->first();
-        $user = User::whereId($bill->buyer_id)->fist();
+        $user = User::whereId($bill->buyer_id)->first();
         $bill->name = $user->name;
         $bill->statusCN = BuyerBill::statusCN($bill->status);
-        $file = $bill->bill_file->latest()->first();
+        $file = $bill->bill_file()->latest()->first();
         if(!is_null($file)){
             $bill->statusCN = BuyerBillFile::statusCN($file->status);
         }
@@ -77,6 +77,7 @@ class BillController extends BuyerController
         $bill_file->status = BuyerBillFile::STATUS_NOT_CHECK;
         $bill_file->content = $request->post('content','');
         $bill_file->bill_id = $request->post('bill_id');
+        $bill_file->refund_file = $request->post('refund_file');
         $bill_file->save();
 
         return $this->formatResponse('提交成功',$this->successStatus);

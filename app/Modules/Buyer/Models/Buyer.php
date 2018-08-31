@@ -7,6 +7,8 @@
 
 namespace App\Modules\Buyer\Models;
 
+use App\Modules\System\Models\BuyerBill;
+use App\Modules\System\Models\BuyerOrder;
 use App\User;
 use Reliese\Database\Eloquent\Model as Eloquent;
 
@@ -105,6 +107,11 @@ class Buyer extends Eloquent
 	public function user()
     {
         return $this->hasOne(User::class,'id','users_id');
+    }
+
+    public function bills()
+    {
+        return $this->hasMany(BuyerBill::class,'id','buyer_id');
     }
 
     static function buyer($buyer)

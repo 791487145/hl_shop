@@ -36,7 +36,7 @@ class LoginController extends ApiController
         }
     }
 
-    public function checkMobile(Request $request,User $user)
+   /* public function checkMobile(Request $request,User $user)
     {
         $mobile = $request->post('mobile');
         $user = $user->whereMobile($mobile)->first();
@@ -45,7 +45,7 @@ class LoginController extends ApiController
         }
 
         return $this->formatResponse('验证成功');
-    }
+    }*/
 
 
 }
