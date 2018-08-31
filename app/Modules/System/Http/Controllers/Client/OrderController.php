@@ -174,6 +174,7 @@ class OrderController extends SystemController
         $bill_file->status = BuyerBillFile::STATUS_NOT_CHECK;
         $bill_file->content = $request->post('content','');
         $bill_file->bill_id = $request->post('bill_id');
+        $bill_file->refund_file = $request->post('refund_file');
         $bill_file->save();
 
         return $this->formatResponse('提交成功',$this->successStatus);

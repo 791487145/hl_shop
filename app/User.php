@@ -104,6 +104,6 @@ class User extends Authenticatable
     //采购
     public function buyer()
     {
-        return $this->hasOne(Buyer::class,'user_id','id');
+        return $this->hasOne(Buyer::class,'users_id','id');
     }
 }

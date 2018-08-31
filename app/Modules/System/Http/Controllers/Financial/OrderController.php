@@ -237,6 +237,12 @@ class OrderController extends SystemController
             $user = $order->buyer()->first()->user()->first();
             $bill->buyer_name = $user->name;
             $bill->order_no = $order->order_no;
+            $bill_file = $bill->bill_file()->latest()->first();
+            if(!is_null($bill_file)){
+                $bill->file_statusCN = BuyerBillFile::statusCN($bill_file->status);
+            }else{
+                $bill->file_statusCN = '未提交申请';
+            }
             if($order->status >= BuyerOrder::ORDER_REFUND){
                 $bill->statusCN = BuyerOrder::statusCN($order->status);
             }
@@ -244,6 +250,7 @@ class OrderController extends SystemController
 
         return $this->formatResponse('获取成功',$this->successStatus,$bills);
     }
+
 
     /**
      * 更改账单状态
@@ -260,17 +267,19 @@ class OrderController extends SystemController
         }
 
         $bill = BuyerBill::whereOrderSn($order_sn)->first();
-        $order = $bill->buyer_order()->first();
-        $bill_file = $bill->bill_file()->orderBy('buyer_bill_file.id','desc')->first();
+        $order = $bill->order_bill_med()->first()->orders()->first();
+        $bill_file = $bill->bill_file()->latest()->first();
 
-        if($order->status >= BuyerOrder::ORDER_REFUND){
-            return $this->formatResponse('当前订单已申请退款，无法操作',$this->errorStatus);
-        }
+        $buyer = $order->buyer()->first();
+
         if($order->status >= BuyerOrder::ORDER_END){
             return $this->formatResponse('当前订单已结束，无法操作',$this->errorStatus);
         }
-        if(is_null($bill_file) || $bill_file->status == BuyerBillFile::STATUS_FAIL_CHECK){
-            return $this->formatResponse('请先提交还款资料',$this->errorStatus);
+        if(is_null($bill_file) || $bill_file->status == BuyerBillFile::STATUS_FAIL_CHECK || $bill_file->status == BuyerBillFile::STATUS_NOT_CHECK){
+            return $this->formatResponse('请先提交还款资料或等待审核',$this->errorStatus);
+        }
+        if($bill->status != BuyerBill::STATUS_NOT_PAY && $bill->status != BuyerBill::STATUS_OVER_NOT_PAY){
+            return $this->formatResponse('当前账单已还清,请勿重复操作',$this->errorStatus);
         }
 
         if($status == BuyerBill::STATUS_PAY){
@@ -281,6 +290,15 @@ class OrderController extends SystemController
             }else{
                 BuyerOrder::whereId($order->id)->update(['has_payment' => bcadd($bill->month_account,$order->has_payment,2)]);
             }
+
+            $parm = array(
+                'use_account' => bcadd($buyer->use_account,bcsub($bill->month_account,$bill->cover_charse,2),2),
+                'debt_account_num' => bcsub($buyer->debt_account_num,$bill->month_account,2),
+                'refund_account_num' => bcsub($buyer->refund_account_num,$bill->month_account,2)
+            );
+            Buyer::whereId($buyer->id)->update($parm);
+        }else{
+            return $this->formatResponse('无效参数',$this->errorStatus);
         }
 
         return $this->formatResponse('操作成功',$this->successStatus);

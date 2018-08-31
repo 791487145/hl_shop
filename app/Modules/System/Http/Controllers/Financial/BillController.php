@@ -27,8 +27,9 @@ class BillController extends SystemController
     {
         $bill_files = BuyerBillFile::whereStatus(BuyerBillFile::STATUS_NOT_CHECK)->forPage($request->post('page',1),$request->post('limit',$this->limit))->get();
         foreach ($bill_files as $bill_file){
-            $bill = $bill_file->bill();
+            $bill = $bill_file->bill()->first();
             $bill_file->bill_order_sn = $bill->order_sn;
+            $bill_file->statusCN = BuyerBillFile::statusCN($bill_file->status);
         }
 
         return $this->formatResponse('获取成功',$this->successStatus,$bill_files);
@@ -50,6 +51,7 @@ class BillController extends SystemController
         $bill_file->status = BuyerBillFile::STATUS_SUCCESS;
         $bill_file->content = $request->post('content','');
         $bill_file->bill_id = $request->post('bill_id');
+        $bill_file->refund_file = $request->post('refund_file');
         $bill_file->save();
 
         return $this->formatResponse('提交成功',$this->successStatus);

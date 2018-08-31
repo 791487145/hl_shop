@@ -57,15 +57,15 @@ class BuyerBillFile extends Eloquent
 
 	public function bill()
     {
-        return $this->hasOne(BuyerBill::class,'bill_id','id');
+        return $this->hasOne(BuyerBill::class,'id','bill_id');
     }
 
     static function statusCN($st)
     {
         $status = array(
-            self::STATUS_NOT_CHECK => '未审核',
-            self::STATUS_SUCCESS => '已通过',
-            self::STATUS_FAIL_CHECK => '已拒绝',
+            self::STATUS_NOT_CHECK => '审核未审核',
+            self::STATUS_SUCCESS => '审核已通过',
+            self::STATUS_FAIL_CHECK => '审核已拒绝',
         );
 
         return $status[$st];
