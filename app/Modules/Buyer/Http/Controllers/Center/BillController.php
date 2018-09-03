@@ -29,8 +29,19 @@ class BillController extends BuyerController
         if($status != $this->pub){
             $bills = $bills->whereStatus($status);
         }
-        $buyer = Auth::user()->buyer()->first();
+
+        $start_time = $request->post('start_time','');
+        if(!empty($start_time)){
+            $bills = $bills->where('created_at','>',$start_time);
+        }
+
+        $end_time = $request->post('end_time','');
+        if(!empty($end_time)){
+            $bills = $bills->where('created_at','<',$end_time);
+        }
         
+        $buyer = Auth::user()->buyer()->first();
+
         $bills = $bills->whereBuyerId($buyer->id)->forPage($request->post('page',1),$request->post('limit',$this->limit))->orderBy('id','desc')->get();
         foreach ($bills as $bill){
             $bill->statusCN = BuyerBill::statusCN($bill->status);
