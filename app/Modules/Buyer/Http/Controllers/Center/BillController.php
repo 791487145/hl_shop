@@ -29,8 +29,9 @@ class BillController extends BuyerController
         if($status != $this->pub){
             $bills = $bills->whereStatus($status);
         }
-
-        $bills = $bills->whereBuyerId(Auth::id())->forPage($request->post('page',1),$request->post('limit',$this->limit))->orderBy('id','desc')->get();
+        $buyer = Auth::user()->buyer()->first();
+        
+        $bills = $bills->whereBuyerId($buyer->id)->forPage($request->post('page',1),$request->post('limit',$this->limit))->orderBy('id','desc')->get();
         foreach ($bills as $bill){
             $bill->statusCN = BuyerBill::statusCN($bill->status);
             $file = $bill->bill_file()->latest()->first();
