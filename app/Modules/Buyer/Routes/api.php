@@ -21,6 +21,7 @@ Route::prefix('buyer')->group(function () {
         //权限管理
         Route::namespace('Center')->group(function () {
             Route::post('center', 'CenterController@center');
+            Route::post('center/passwordReset', 'CenterController@passwordReset');
 
             Route::post('center/myBillList', 'BillController@myBillList');
             Route::post('center/billInfo', 'BillController@billInfo');

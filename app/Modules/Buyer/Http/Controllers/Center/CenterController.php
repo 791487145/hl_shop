@@ -14,6 +14,7 @@ use Illuminate\Routing\Route;
 use Illuminate\Support\Facades\Auth;
 use Validator;
 use Log;
+use Hash;
 
 class CenterController extends BuyerController
 {
@@ -25,6 +26,18 @@ class CenterController extends BuyerController
             $buyer->refund_time = date("Y-m-d",$bill->end_time);
         }
         return $this->formatResponse('获取成功',$this->successStatus,$buyer);
+    }
+
+    public function passwordReset(Request $request)
+    {
+        $user = Auth::user();
+
+        if(!Hash::check($request->post('old_password'), $user->password)){
+            return $this->formatResponse('原始密码不正确，请重新输入');
+        };
+
+        $user->update(['password' => bcrypt($request->post('new_password'))]);
+        return $this->formatResponse('修改成功');
     }
 
 }
