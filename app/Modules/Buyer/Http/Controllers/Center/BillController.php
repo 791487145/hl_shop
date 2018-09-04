@@ -39,7 +39,7 @@ class BillController extends BuyerController
         if(!empty($end_time)){
             $bills = $bills->where('created_at','<',$end_time);
         }
-        
+
         $buyer = Auth::user()->buyer()->first();
 
         $bills = $bills->whereBuyerId($buyer->id)->forPage($request->post('page',1),$request->post('limit',$this->limit))->orderBy('id','desc')->get();
@@ -67,6 +67,7 @@ class BillController extends BuyerController
         $bill->statusCN = BuyerBill::statusCN($bill->status);
         $file = $bill->bill_file()->latest()->first();
         if(!is_null($file)){
+            $bill->status_file = $file->status;
             $bill->statusCN = BuyerBillFile::statusCN($file->status);
         }
 
