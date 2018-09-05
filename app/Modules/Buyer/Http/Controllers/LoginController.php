@@ -32,7 +32,7 @@ class LoginController extends ApiController
             return response()->json(['success' => $success], $this->successStatus);
         }
         else{
-            return response()->json(['error'=>'暂无权限'], $this->errorStatus);
+            return $this->formatResponse('密码或账号错误',$this->errorLogin);
         }
     }
 

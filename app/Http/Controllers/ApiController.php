@@ -11,6 +11,7 @@ class ApiController extends BaiseController
     public $successStatus = 200;
     public $errorStatus = 201;
     public $unauthized = 403;
+    public $errorLogin = 401;
 
     public $buyer = 1;
     public $shopeeker = 2;

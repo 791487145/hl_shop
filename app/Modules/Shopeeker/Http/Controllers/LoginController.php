@@ -31,7 +31,7 @@ class LoginController extends ApiController
             return response()->json(['success' => $success], $this->successStatus);
         }
         else{
-            return response()->json(['error'=>'Unauthorised'], 401);
+            return $this->formatResponse('密码或账号错误',$this->errorLogin);
         }
     }
 
