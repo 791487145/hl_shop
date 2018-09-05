@@ -37,7 +37,7 @@ class CovercharseController extends BuyerController
             $cover_charse_amount = BuyerBill::whereStatus(BuyerBill::STATUS_PAY)->sum('cover_charse');
         }
 
-        $cover_charse = $cover_charse->whereStatus(BuyerBill::STATUS_PAY)->forPage($request->post('page',1),$request->post('limit',$this->limit))->get();
+        $cover_charse = $cover_charse->forPage($request->post('page',1),$request->post('limit',$this->limit))->get();
 
 
         $buyer = Auth::user()->buyer()->first();

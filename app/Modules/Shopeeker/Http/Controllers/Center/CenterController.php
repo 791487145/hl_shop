@@ -21,7 +21,7 @@ class CenterController extends ShopeekerController
         $user = Auth::user();
 
         if(!Hash::check($request->post('old_password'), $user->password)){
-            return $this->formatResponse('原始密码不正确，请重新输入');
+            return $this->formatResponse('原始密码不正确，请重新输入',$this->errorStatus);
         };
 
         $user->update(['password' => bcrypt($request->post('new_password'))]);
