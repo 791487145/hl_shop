@@ -22,8 +22,8 @@ class LoginController extends ApiController
                 return $this->formatResponse('暂无权限登录',$this->errorStatus);
             }
             $shopeeker = $user->shopeeker()->first();
-            if($shopeeker->status == Shopeeker::STATUS_FORBBIN){
-                return $this->formatResponse('该账号已禁止登录，请联系管理员',$this->errorStatus);
+            if($shopeeker->status == Shopeeker::STATUS_FAIL){
+                return $this->formatResponse('该账号已禁止登录或账号在审核中，请联系管理员',$this->errorStatus);
             }
 
             $user->oauth_access_token()->delete();
