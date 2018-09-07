@@ -71,6 +71,7 @@ class LoginController extends ApiController
             $shopeeker->brought_account = $request->post('brought_account');
             $shopeeker->brought_bank = $request->post('brought_bank');
             $shopeeker->brought_other_bank = $request->post('brought_other_bank');
+            $shopeeker->content_person = $request->post('content_person');
 
             $shopeeker->company_name = $request->post('company_name');
             $shopeeker->business_code = $request->post('business_code');
