@@ -44,7 +44,7 @@ class UploadController extends ApiController
         if(Cache::has('city')){
             $param = Cache::get('city');
         }else{
-            $citys = ConfCity::select('id','name','parent_id')->get();
+            $citys = ConfCity::select('id','name','parent_id')->where('parent_id','>',0)->get();
             $param = array();
             foreach ($citys as $city){
                 $pa = array(
