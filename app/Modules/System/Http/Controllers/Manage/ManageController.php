@@ -25,9 +25,13 @@ class ManageController extends SystemController
             $role = $user->roles()->where('user_role.role_id','>=',3)->first();
             $user->role = isset($role->name) ? $role->name : '请设置权限';
         }
-        $users->count = $count;
-        
-        return $this->formatResponse('获取成功',$this->successStatus,$users);
+
+        $data = array(
+            'count' => $count,
+            'users' => $users
+        );
+
+        return $this->formatResponse('获取成功',$this->successStatus,$data);
     }
 
     public function userCreate(Request $request)
