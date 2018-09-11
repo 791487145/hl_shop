@@ -19,7 +19,7 @@ class ManageController extends SystemController
 
     public function userList(Request $request)
     {
-        $users = User::whereStatus(User::STATUS_NORMAL)->select('id','name','mobile','created_at')->get();
+        $users = User::whereStatus(User::STATUS_NORMAL)->select('id','name','mobile','created_at')->forPage($request->post('page',1),$request->post('limit',$this->limit))->get();
         foreach ($users as $user){
             $role = $user->roles()->where('user_role.role_id','>=',3)->first();
             $user->role = isset($role->name) ? $role->name : '请设置权限';
