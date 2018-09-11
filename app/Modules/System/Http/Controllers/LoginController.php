@@ -27,7 +27,12 @@ class LoginController extends ApiController
 
             $user->oauth_access_token()->delete();
             $success['token'] =  $user->createToken('MyApp')->accessToken;
-            return response()->json(['success' => $success], $this->successStatus);
+
+            $data = array(
+                'token' => $success['token'],
+                'user_name' => $user->name
+            );
+            return $this->formatResponse('登录成功',$this->successStatus,$data);
         }
         else{
             return $this->formatResponse('密码或账号错误',$this->errorLogin);

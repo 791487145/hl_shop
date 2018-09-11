@@ -10,6 +10,7 @@ use Illuminate\Support\Facades\Auth;
 use Validator;
 use Log;
 use DB;
+use Hash;
 
 class LoginController extends ApiController
 {
@@ -44,6 +45,16 @@ class LoginController extends ApiController
         }
 
         return $this->formatResponse('验证成功');
+    }
+
+    public function aaa()
+    {
+        $pa = bcrypt(555555);
+        dd($pa);
+        if(Hash::check('555555',$pa)){
+            dd(1);
+        }
+        dd(2);
     }
 
     public function register(Request $request)
