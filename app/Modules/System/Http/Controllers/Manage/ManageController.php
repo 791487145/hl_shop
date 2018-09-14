@@ -22,7 +22,7 @@ class ManageController extends SystemController
         $users = User::whereStatus(User::STATUS_NORMAL)->select('id','name','mobile','created_at')->forPage($request->post('page',1),$request->post('limit',$this->limit))->get();
         $count = User::whereStatus(User::STATUS_NORMAL)->count();
         foreach ($users as $user){
-            $role = $user->roles()->where('user_role.role_id','>=',3)->first();
+            $role = $user->roles()->first();
             $user->role = isset($role->name) ? $role->name : '请设置权限';
         }
 
@@ -71,7 +71,7 @@ class ManageController extends SystemController
             $user->role_id = $role->id;
         }
 
-        $roles = Role::select('id','name')->get();
+        $roles = Role::select('id','name')->where('id','>=',3)->get();
 
         $data = array(
             'user' => $user,

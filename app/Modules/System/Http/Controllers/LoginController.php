@@ -30,7 +30,8 @@ class LoginController extends ApiController
 
             $data = array(
                 'token' => $success['token'],
-                'user_name' => $user->name
+                'user_name' => $user->name,
+                'user_id' => Auth::id()
             );
             return $this->formatResponse('登录成功',$this->successStatus,$data);
         }
