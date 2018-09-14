@@ -18,6 +18,7 @@ class SystemController extends ApiController
     {
         $this->middleware(function ($request, $next) {
             $name = Route::currentRouteName();
+
             if(Auth::user()->cannot($name)){
                 return $this->formatResponse('您没有该动作权限',$this->unauthized);
             };

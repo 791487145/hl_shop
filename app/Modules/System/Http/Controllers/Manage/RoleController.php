@@ -90,6 +90,7 @@ class RoleController extends SystemController
      */
     public function roleUpdate(Request $request)
     {
+
         $data = $request->all();
 
         if($data['role_id'] <= 3 ){
@@ -144,15 +145,16 @@ class RoleController extends SystemController
      */
     public function assignPermission(Request $request)
     {
+
         $data = $request->all();
         $validator = Validator::make($data,[
             'role_id' => 'required|integer',
-            'permissions' => 'required|array',
+            'permissions' => 'required',
         ],[
             'role_id.required' => 'role_id参数短缺',
             'role_id.integer' => '请输入整数',
             'permissions.required' => 'permissions参数短缺',
-            'permissions.array' => 'permissions格式为数组',
+
         ]);
         $error = $validator->errors()->all();
         if(count($error)){
@@ -160,8 +162,8 @@ class RoleController extends SystemController
         }
 
         $role = Role::whereId($request->post('role_id'))->first();
-
-        $role->assigePermission($request->post('permissions'));
+        $permissions = implode(",",$request->post('permissions'));
+        $role->assigePermission($permissions);
         return $this->formatResponse('添加成功');
     }
 
