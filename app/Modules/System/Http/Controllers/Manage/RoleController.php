@@ -162,8 +162,8 @@ class RoleController extends SystemController
         }
 
         $role = Role::whereId($request->post('role_id'))->first();
-        $permissions = implode(",",$request->post('permissions'));
-        $role->assigePermission($permissions);
+        //$permissions = implode(",",$request->post('permissions'));
+        $role->assigePermission($request->post('permissions'));
         return $this->formatResponse('添加成功');
     }
 
