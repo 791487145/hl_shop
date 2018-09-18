@@ -21,17 +21,22 @@ class ShopController extends SystemController
     {
         $role = Auth::user()->roles->first();
         if($role->id == $this->shopeeker){
-            $shopeeker = Shopeeker::whereUserId(Auth::id())->select('id','company_name','agency_name','agency_mobile','status','ssl_num_status','province','city','area')->get();
+            $shopeeker = Shopeeker::whereUserId(Auth::id())->select('id','company_name','agency_name','agency_mobile','status','ssl_num_status','province','city','area')
+                ->forPage($request->post('page',1),$request->post('limit',$this->limit))->get();
         }else{
             $shopeeker = Shopeeker::orderBy('id','desc')->select('id','company_name','agency_name','agency_mobile','status','ssl_num_status','province','city','area')
                 ->forPage($request->post('page',1),$request->post('limit',$this->limit))->orderBy('id','desc')->get();
         }
-
+        $count = count($shopeeker);
         foreach ($shopeeker as &$value){
             $value = Shopeeker::shopeeker($value);
         }
 
-        return $this->formatResponse('获取成功',$this->successStatus,$shopeeker);
+        $data = array(
+            'shopeeker' => $shopeeker,
+            'count' => $count
+        );
+        return $this->formatResponse('获取成功',$this->successStatus,$data);
     }
 
     /**

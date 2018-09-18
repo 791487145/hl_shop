@@ -91,8 +91,8 @@ Route::prefix('system')->group(function () {
             //申请订单
             Route::post('note', 'NoteController@noteList')->name('note');
             Route::post('note/info', 'NoteController@noteInfo')->name('noteInfo');
-            Route::post('note/replay', 'OrderController@noteReplay')->name('noteReplay');
-            Route::post('note/issue', 'OrderController@noteIssue')->name('noteIssue');
+            Route::post('note/replay', 'NoteController@noteReplay')->name('noteReplay');
+            Route::post('note/issue', 'NoteController@noteIssue')->name('noteIssue');
 
         });
 
