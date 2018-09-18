@@ -56,7 +56,7 @@ class BuyerController extends SystemController
     {
         $user = User::whereMobile($request->post('mobile'))->first();
         if(!is_null($user)){
-            return $this->formatResponse('该手机号已注册');
+            return $this->formatResponse('该手机号已注册',$this->errorStatus);
         }
 
         DB::transaction(function () use($request) {
