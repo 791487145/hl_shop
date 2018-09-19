@@ -27,55 +27,7 @@ class Common
         }
         return $hash;
     }
-    /**
-     * 检测验证码是否正确
-     *
-     * @param string $code
-     * @return bool
-     */
-    static function checkCode($code)
-    {
-        $builder = new CaptchaBuilder(Session::get('phrase'));
-        if ($builder->testPhrase($code)) {
-            return true;
-        }
-        return false;
-    }
-    /**
-     * 生成验证码图片
-     *
-     * @param  int $width
-     * @param  int $height
-     * @return string
-     */
-    static function getCodes($width = 120, $height = 35)
-    {
-        $builder = new CaptchaBuilder();
-        $builder->build($width, $height);
-        $code = $builder->inline();
-        $phrase = $builder->getPhrase();
-        Session::put('phrase', $phrase);
-        return $code;
-    }
-    /**
-     * ajax请求格式化响应
-     *
-     * @param $msg
-     * @param int $code
-     * @param string $data
-     * @return string
-     */
-    static function formatResponse($msg, $code = 200, $data = '')
-    {
-        $result['code'] = $code;
-        $result['message'] = $msg;
-        if (!is_array($data) && CommonClass::isJson($data)) {
-            $result['data'] = json_decode($data, true);
-        } else {
-            $result['data'] = $data;
-        }
-        return json_encode($result);
-    }
+
     /**
      * 字符串星号替换
      *

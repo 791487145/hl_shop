@@ -32,7 +32,11 @@ class BillController extends SystemController
             $bill_file->statusCN = BuyerBillFile::statusCN($bill_file->status);
         }
 
-        return $this->formatResponse('获取成功',$this->successStatus,$bill_files);
+        $data = array(
+            'count' => count($bill_files),
+            'bill_files' => $bill_files
+        );
+        return $this->formatResponse('获取成功',$this->successStatus,$data);
     }
 
     /**
@@ -77,7 +81,12 @@ class BillController extends SystemController
     public function covercharseList(Request $request)
     {
         $cover_charse = BuyerBill::whereStatus(BuyerBill::STATUS_PAY)->forPage($request->post('page',1),$request->post('limit',$this->limit))->get();
-        return $this->formatResponse('获取成功',$this->successStatus,$cover_charse);
+
+        $data = array(
+            'count' => count($cover_charse),
+            'cover_charse' => $cover_charse
+        );
+        return $this->formatResponse('获取成功',$this->successStatus,$data);
     }
 
 

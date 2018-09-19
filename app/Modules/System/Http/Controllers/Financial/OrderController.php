@@ -52,8 +52,13 @@ class OrderController extends SystemController
             $buyer_order_apply->buyer_name = $user->name;
             $buyer_order_apply->status_name = BuyerOrder::statusCN($buyer_order_apply->status);
         }
+        $count = count($buyer_order_applys);
 
-        return $this->formatResponse('获取成功',$this->successStatus,$buyer_order_applys);
+        $data = array(
+            'count' => $count,
+            'buyer_order_applys' => $buyer_order_applys
+        );
+        return $this->formatResponse('获取成功',$this->successStatus,$data);
     }
 
     /**
@@ -206,7 +211,11 @@ class OrderController extends SystemController
             $buyer_order->status_name = BuyerOrder::statusCN($buyer_order->status);
         }
 
-        return $this->formatResponse('获取成功',$this->successStatus,$buyer_orders);
+        $data = array(
+            'count' => count($buyer_orders),
+            'buyer_orders' => $buyer_orders
+        );
+        return $this->formatResponse('获取成功',$this->successStatus,$data);
     }
 
     /**
@@ -248,7 +257,11 @@ class OrderController extends SystemController
             }
         }
 
-        return $this->formatResponse('获取成功',$this->successStatus,$bills);
+        $data = array(
+            'count' => count($bills),
+            'bills' => $bills
+        );
+        return $this->formatResponse('获取成功',$this->successStatus,$data);
     }
 
 
