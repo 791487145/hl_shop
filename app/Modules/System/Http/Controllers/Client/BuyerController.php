@@ -29,9 +29,9 @@ class BuyerController extends SystemController
             $buyer = Buyer::whereUsersId(Auth::id())->select('id','account_num','use_account','debt_account_num','buyer_mobile','agency_name','ssl_num_status','status')
                 ->forPage($request->post('page',1),$request->post('limit',$this->limit))->get();
         }else{
-            $status = $request->post('status',1);
+           // $status = $request->post('status',1);
             $buyer = new Buyer();
-            $buyer = $buyer->whereStatus($status)->select('id','account_num','use_account','debt_account_num','buyer_mobile','agency_name','ssl_num_status','status')->orderBy('id','desc')
+            $buyer = $buyer->select('id','account_num','use_account','debt_account_num','buyer_mobile','agency_name','ssl_num_status','status')->orderBy('id','desc')
                             ->forPage($request->post('page',1),$request->post('limit',$this->limit))->get();
         }
         $count = count($buyer);
