@@ -155,7 +155,7 @@ class BuyerController extends SystemController
         }
 
         User::whereId($u_id)->update(['status' => $request->post('status')]);
-        Buyer::whereId($request->post('shopeeker_id'))->update(['status' => $request->post('status')]);
+        Buyer::whereId($request->post('buyer_id'))->update(['status' => $request->post('status')]);
         return $this->formatResponse('操作成功');
     }
 
