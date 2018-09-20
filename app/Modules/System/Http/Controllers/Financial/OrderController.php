@@ -201,6 +201,11 @@ class OrderController extends SystemController
             $buyer_orders = $buyer_orders->whereStatus($status);
         }
 
+        $order_no = $request->post('order_no','');
+        if(!empty($order_no)){
+            $buyer_orders = $buyer_orders->whereOrderNo($order_no);
+        }
+
         $buyer_orders = $buyer_orders->orderBy('id','desc')->forPage($request->post('page',1),$request->post('limit',$this->limit))
             ->select('id','order_no','buyer_id','order_account','goods_price','order_total','amortize_time','cover_charse','contract','status','created_at')
             ->get();
@@ -234,6 +239,11 @@ class OrderController extends SystemController
         $end_time = $request->post('end_time','');
         if(!empty($end_time)){
             $bills = $bills->where('created_at','<',$end_time);
+        }
+
+        $order_sn = $request->post('order_sn','');
+        if(!empty($order_sn)){
+            $bills = $bills->whereOrderSn($order_sn);
         }
 
         $bills = $bills->whereIn('status',[0,2])->orderBy('id','desc')->forPage($request->post('page',1),$request->post('limit',$this->limit))
