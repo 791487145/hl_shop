@@ -111,7 +111,12 @@ class OrderController extends SystemController
         foreach ($buyer_orders as $buyer_order){
             $buyer_order->statusCN = BuyerOrder::statusCN($buyer_order->status);
         }
-        return $this->formatResponse('获取成功',$this->successStatus,$buyer_orders);
+
+        $data = array(
+            'buyer_orders' => $buyer_orders,
+            'count' => count($buyer_orders)
+        );
+        return $this->formatResponse('获取成功',$this->successStatus,$data);
     }
 
     /**
