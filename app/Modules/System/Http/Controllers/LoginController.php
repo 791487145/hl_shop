@@ -33,8 +33,9 @@ class LoginController extends ApiController
                 'token' => $success['token'],
                 'user_name' => $user->name,
                 'user_id' => Auth::id(),
-                'role_id' => $role->id
+                'role_id' => $role->id,
             );
+
             return $this->formatResponse('登录成功',$this->successStatus,$data);
         }
         else{
