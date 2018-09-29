@@ -15,6 +15,7 @@ use Illuminate\Http\Request;
 Route::prefix('system')->group(function () {
 
     Route::post('login', 'LoginController@login');
+    Route::post('excel/import','ExcelController@import')->name('import');
 
     Route::group(['middleware' => 'auth:api'], function () {
 
@@ -98,8 +99,6 @@ Route::prefix('system')->group(function () {
 
 
         //Route::post('excel/export','ExcelController@export');
-        Route::post('excel/import','ExcelController@import')->name('import');
-
     });
 
 

@@ -21,7 +21,7 @@ class IndexController extends SystemController
         $menu = $user->roles()->first()->permissions->where('tier','<',2)->sortBy('order')->toArray();
 
         $menus = \Common::listToTree($menu,'id','parent_id');
-
+        //dd($menus);
         return $this->formatResponse('获取成功',$this->successStatus,$menus);
     }
 
