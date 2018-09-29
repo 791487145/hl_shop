@@ -95,6 +95,13 @@ class OrderController extends SystemController
             });
         });
 
+        $order = BuyerOrder::whereOrderNo($request->post('order_no'))->first();
+        if($order->order_account != $order->goods_price){
+            Storage::delete($file_path);
+            return $this->formatResponse('订单金额与商品金额不符，请重新上传',$this->errorStatus);
+        }
+
+
         return $this->formatResponse('订单提交成功，请等待审核',$this->successStatus);
     }
 
