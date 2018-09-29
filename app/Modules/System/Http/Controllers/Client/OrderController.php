@@ -90,7 +90,7 @@ class OrderController extends SystemController
                 }
 
                 $order->goods_file = $request->post('goods_file');
-                $order->goods_price = $goods_price;
+                $order->goods_price = bcadd($goods_price,$order->goods_price,2);
                 $order->save();
             });
         });
