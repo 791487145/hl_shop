@@ -1,0 +1,190 @@
+.page {
+  height: 100vh;
+  overflow: scroll;
+  /*#region 登录*/
+  /*#endregion*/
+}
+.page .login {
+  background: #000 url(../static/images/login_bg.jpg) no-repeat center;
+  background-size: cover;
+  height: 100%;
+}
+.page .btn_theme {
+  background-color: rgba(50, 150, 250, 0.85);
+  color: #fff;
+}
+.page .btn_theme:not(.weui-btn_disabled):active {
+  color: rgba(255, 255, 255, 0.6);
+  background-color: #3296fa;
+}
+.page .btn_white {
+  background-color: rgba(255, 255, 255, 0.85);
+  color: #328ce6;
+}
+.page .form {
+  padding: 20px;
+}
+.page .weui-switch:checked,
+.page .weui-switch-cp__input:checked ~ .weui-switch-cp__box {
+  border-color: #3296fa;
+  background-color: #3296fa;
+}
+.page .weui-wepay-flow__li_done .weui-wepay-flow__state {
+  background-color: #3296fa;
+}
+.page .weui-wepay-flow__process {
+  background-color: #3296fa;
+}
+.page [class^="weui-wepay-flow__info-"] {
+  background-color: #3296fa;
+}
+.page .weui-wepay-flow__info-left:after {
+  border-color: transparent transparent transparent #3296fa;
+}
+.page .weui-wepay-flow__li {
+  width: 24px;
+  height: 24px;
+}
+.page .weui-wepay-flow__li .weui-wepay-flow__state {
+  width: 24px;
+  height: 24px;
+  line-height: 24px;
+  border-radius: 100em;
+}
+.noInfo {
+  text-align: center;
+  color: #999;
+  font-size: 13px;
+  margin: 20px auto;
+}
+/*#rengion 个人中心*/
+/*#endregion*/
+/*#rengion 通用类*/
+.hideText {
+  display: none;
+  padding: 5px 10px;
+}
+/*.ellipsis{display:block;overflow:hidden;-ms-text-overflow:ellipsis; -o-text-overflow:ellipsis; text-overflow:ellipsis;white-space:nowrap;}*/
+.ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: box;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  -webkit-box-orient: vertical;
+}
+.ellipsis2row {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: box;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+.ellipsis3row {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: box;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+}
+.transition_all3 {
+  -webkit-transition: all 0.3s;
+  -moz-transition: all 0.3s;
+  -o-transition: all 0.3s;
+  transition: all 0.3s;
+}
+.f_left {
+  float: left;
+}
+.f_right {
+  float: right;
+}
+.themebgColor {
+  background-color: #fff;
+}
+.marginB {
+  margin-bottom: 20px!important;
+}
+.ml10 {
+  margin-left: 10px!important;
+}
+.mt10 {
+  margin-top: 10px!important;
+}
+.mt0 {
+  margin-top: 0px!important;
+}
+.width20 {
+  display: inline-block;
+  width: 20px;
+}
+.pd15 {
+  padding: 15px;
+}
+.pd10 {
+  padding: 10px;
+}
+.f12 {
+  font-size: 12px;
+}
+.f14 {
+  font-size: 14px;
+}
+.f16 {
+  font-size: 16px;
+}
+.f18 {
+  font-size: 18px;
+}
+.f20 {
+  font-size: 20px;
+}
+.f22 {
+  font-size: 22px;
+}
+.f24 {
+  font-size: 24px;
+}
+.f26 {
+  font-size: 26px;
+}
+.fc_red {
+  color: #f74c31;
+}
+.fc_blue {
+  color: #1f9feb;
+}
+.fc_gray {
+  color: #999999;
+}
+.fc_green {
+  color: #169e49;
+}
+.fc_yellow {
+  color: #f8a217;
+}
+.align_l {
+  text-align: left;
+}
+.align_c {
+  text-align: center;
+}
+.align_r {
+  text-align: right;
+}
+.dTable {
+  display: table;
+  width: 100%;
+}
+.dRow {
+  display: table-row;
+}
+.dCell {
+  display: table-cell;
+}
+.hide {
+  display: none;
+}
+/*#endregion*/

@@ -1,0 +1,27 @@
+﻿@charset "utf-8";
+
+/***-------通用类样式，清除默认值，调用时请放在所有样式表之前-------**/
+*{margin:0px;padding:0px;border:0px;}
+body,form,table,td,th,tr,div,p,span,img,ul,li,ol,input,a,dl,dt,dd{margin:0px;padding:0px;border:0px;list-style:none;
+/*outline: none;-moz-outline: none;-webkit-appearance: none;font-style:normal;*/}
+
+input[type=button],input[type=text],input[type=submit],input[type=password],select
+ {
+        outline: none;-moz-outline: none;-webkit-appearance: none;font-style:normal;
+    }
+
+a{text-decoration:none; bblr:expression(this.onFocus=this.blur()); outline-style:none; }
+a:link{text-decoration:none; bblr:expression(this.onFocus=this.blur()); outline-style:none;}
+a:hover{text-decoration:none;}
+
+.clear{ float:none; clear:both; font-size:0px; overflow:hidden; height:0px;width:0px;_height:0px;_width:0px;margin:0px;padding:0px;_margin:0px;_padding:0px;}
+.f_left{float:left;}
+.f_right{float:right;}
+
+td{zoom:expression(this.innerHTML==""?(this.innerHTML="&nbsp;"):0);}
+
+
+
+
+
+
